@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <div>
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">Projects</h1>
+        <h1 className="text-3xl font-bold text-text-primary mb-2">Parker TEst</h1>
         <p className="text-text-muted">
           A collection of interactive experiments and tools.
         </p>
