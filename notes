@@ -1,14 +1,23 @@
-# If you haven't initialized git yet
-git init
+● [slug] is a Next.js dynamic route segment. The square brackets are Next.js file-system routing syntax — any URL matching
+  /projects/<anything> will be handled by the files inside that folder.
 
-# Add your GitHub repo as the remote
-git remote add origin https://github.com/parkerburgess/WanderingParker.git
+  Here's what it does end to end:
 
-# Stage all files
-git add .
+  Routing
+  - A URL like /projects/fly-fishing-tracker matches this route, and slug is set to "fly-fishing-tracker".
+  - params.slug gives you that value inside the page.
 
-# First commit
-git commit -m "initial commit"
+  page.tsx
+  1. generateStaticParams — tells Next.js which slugs exist at build time (one per project), so it can pre-render each project page      
+  statically.
+  2. generateMetadata — sets the <title> tag dynamically based on the matched project.
+  3. ProjectPage — looks up the project by slug. If it doesn't exist, calls notFound() (returns a 404). Otherwise renders the project    
+  name/description and passes the slug to ProjectLoader.
 
-# Push to GitHub
-git push -u origin main
+  ProjectLoader.tsx
+  - Lazily imports projects/<slug>/component at runtime — meaning each project has its own React component file living at e.g.
+  projects/fly-fishing-tracker/component.tsx.
+  - Wraps it in <Suspense> so a "Loading…" fallback is shown while the component chunk is being fetched.
+
+  In short: [slug] is the mechanism that lets one set of files serve every project page, routing /projects/X to the component found at   
+  projects/X/component.tsx.

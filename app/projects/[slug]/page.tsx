@@ -13,7 +13,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const project = getProjects().find((p) => p.slug === params.slug)
   if (!project) return {}
-  return { title: `${project.name} | WanderingParker` }
+  return { title: `${project.name} | Wandering Parker` }
 }
 
 export default function ProjectPage({ params }: Props) {
