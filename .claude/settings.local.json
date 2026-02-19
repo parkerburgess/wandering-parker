@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npm install:*)",
+      "Bash(npm info:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm run build:*)",
+      "Bash(del \"C:\\\\Code\\\\WanderingParker\\\\next.config.ts\")",
+      "Bash(powershell -Command \"Remove-Item ''C:\\\\Code\\\\WanderingParker\\\\next.config.ts''\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Code\\\\WanderingParker'' -Name\")",
+      "Bash(npm run dev:*)",
+      "Bash(powershell -Command:*)"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+# If you haven't initialized git yet
+git init
+
+# Add your GitHub repo as the remote
+git remote add origin https://github.com/parkerburgess/WanderingParker.git
+
+# Stage all files
+git add .
+
+# First commit
+git commit -m "initial commit"
+
+# Push to GitHub
+git push -u origin main
