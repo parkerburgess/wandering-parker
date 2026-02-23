@@ -1,10 +1,10 @@
 [
   {
-    "name": "Flash Cards",
-    "description": "Create and study flash cards, run practice tests, and track your results.",
-    "category": "Tools",
-    "image": "/images/flash-cards.png",
-    "subdomain": "flash-cards"
+    "name": "Patan",
+    "description": "A personalized version of Catan.",
+    "category": "Board Games",
+    "image": "/images/patan.png",
+    "subdomain": "patan"
   },
   {
     "name": "Fly Fishing Tracker",
@@ -14,10 +14,10 @@
     "subdomain": "fly-fishing-tracker"
   },
   {
-    "name": "Patan",
-    "description": "A personalized version of Catan.",
-    "category": "Board Games",
-    "image": "/images/patan.png",
-    "subdomain": "patan"
-  }
+    "name": "Flash Cards",
+    "description": "Create and study flash cards, run practice tests, and track your results.",
+    "category": "Tools",
+    "image": "/images/flash-cards.png",
+    "subdomain": "flash-cards"
+  }   
 ]
