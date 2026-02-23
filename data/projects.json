@@ -7,11 +7,11 @@
     "subdomain": "flash-cards"
   },
   {
-    "name": "Fly Fishing Grading",
+    "name": "Fly Fishing Tracker",
     "description": "Track outings, log catches, score your sessions, and view performance reports.",
     "category": "Outdoors",
     "image": "/images/fly-fishing.png",
-    "subdomain": "fly-fishing-tracking"
+    "subdomain": "fly-fishing-tracker"
   },
   {
     "name": "Patan",
