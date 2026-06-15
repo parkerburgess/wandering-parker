@@ -15,17 +15,22 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
 
-    if (res.ok) {
-      router.push('/')
-      router.refresh()
-    } else {
-      setError('Invalid email or password.')
+      if (res.ok) {
+        router.push('/')
+        router.refresh()
+      } else {
+        setError('Invalid email or password.')
+        setLoading(false)
+      }
+    } catch {
+      setError('Could not reach the server. Please try again.')
       setLoading(false)
     }
   }

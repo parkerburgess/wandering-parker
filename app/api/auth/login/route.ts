@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   const tokenRes = await fetch(`${authUrl}/api/auth/token`, {
     headers: {
       'Cookie': sessionCookiePart,
-      'Origin': 'http://localhost:3001',
+      'Origin': process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
     },
   })
 
