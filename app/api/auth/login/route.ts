@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Origin': 'http://localhost:3000',
+      'Origin': process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
     },
     body: JSON.stringify({ email, password }),
   })
