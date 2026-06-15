@@ -1,8 +1,29 @@
-import { getProjectsByCategory } from '@/lib/getProjects'
+import { cookies } from 'next/headers'
+import { getProjects, Project } from '@/lib/getProjects'
 import ProjectImage from './_components/ProjectImage'
 
-export default function HomePage() {
-  const grouped = getProjectsByCategory()
+async function getAccessibleApps(token: string): Promise<string[]> {
+  const res = await fetch(`${process.env.AUTH_SERVICE_URL}/api/user/apps`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  })
+  if (!res.ok) return []
+  const data = await res.json()
+  return data.apps as string[]
+}
+
+export default async function HomePage() {
+  const cookieStore = cookies()
+  const token = cookieStore.get('auth_token')?.value ?? ''
+  const accessibleApps = await getAccessibleApps(token)
+
+  const visible = getProjects().filter((p) => accessibleApps.includes(p.subdomain))
+
+  const grouped: Record<string, Project[]> = {}
+  for (const project of visible) {
+    if (!grouped[project.category]) grouped[project.category] = []
+    grouped[project.category].push(project)
+  }
   const categories = Object.keys(grouped)
 
   return (
@@ -16,12 +37,8 @@ export default function HomePage() {
 
       {categories.length === 0 ? (
         <div className="text-center py-24 text-text-muted">
-          <p className="text-lg">No projects found.</p>
-          <p className="text-sm mt-1">
-            Add an entry to{' '}
-            <code className="text-accent">data/projects.json</code> to get
-            started.
-          </p>
+          <p className="text-lg">No projects available.</p>
+          <p className="text-sm mt-1">No apps have been granted to your account yet.</p>
         </div>
       ) : (
         <div className="space-y-12">
@@ -39,15 +56,12 @@ export default function HomePage() {
                     rel="noopener noreferrer"
                     className="group block rounded-xl overflow-hidden border border-border bg-surface hover:border-accent/50 transition-all duration-200 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-0.5"
                   >
-                    {/* Image */}
                     <div className="aspect-video bg-background overflow-hidden">
                       <ProjectImage
                         src={project.image}
                         alt={`${project.name} thumbnail`}
                       />
                     </div>
-
-                    {/* Card body */}
                     <div className="p-5">
                       <h3 className="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
                         {project.name}

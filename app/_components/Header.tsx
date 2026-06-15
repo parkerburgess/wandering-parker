@@ -1,11 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Header() {
   const pathname = usePathname()
+  const router = useRouter()
   const isProjectPage = pathname.startsWith('/projects/')
+
+  async function handleLogout() {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    router.push('/login')
+    router.refresh()
+  }
 
   return (
     <header className="border-b border-border bg-surface/50 backdrop-blur-sm sticky top-0 z-50">
@@ -17,29 +24,37 @@ export default function Header() {
           WanderingParker
         </Link>
 
-        {isProjectPage && (
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden="true"
+        <div className="flex items-center gap-4">
+          {isProjectPage && (
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors"
             >
-              <path
-                d="M10 12L6 8L10 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            All Projects
-          </Link>
-        )}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M10 12L6 8L10 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              All Projects
+            </Link>
+          )}
+          <button
+            onClick={handleLogout}
+            className="text-sm text-text-muted hover:text-text-primary transition-colors"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </header>
   )

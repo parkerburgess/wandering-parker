@@ -13,7 +13,11 @@
       "Bash(powershell -Command:*)",
       "Bash(git submodule:*)",
       "Bash(git rm:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Read(//c/Code/auth-wandering-parker/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Code\\auth-wandering-parker\\src\\routes"
     ]
   }
 }
