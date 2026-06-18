@@ -11,7 +11,8 @@
     "description": "A calendar to keep track of how well you are meeting goals.",
     "category": "Tools",
     "image": "/images/flash-cards.png",
-    "subdomain": "good-bad-calendar"
+    "subdomain": "good-bad-calendar",
+    "devPort": 3002
   } ,
   {
     "name": "Patan",

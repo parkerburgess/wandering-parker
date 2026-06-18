@@ -4,8 +4,9 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -17,17 +18,18 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       })
 
       if (res.ok) {
         router.push('/')
         router.refresh()
       } else {
-        setError('Invalid email or password.')
+        const data = await res.json()
+        setError(data.error ?? 'Registration failed. Please try again.')
         setLoading(false)
       }
     } catch {
@@ -40,9 +42,25 @@ export default function LoginPage() {
     <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center">
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold text-text-primary mb-8 text-center">
-          Sign in
+          Create account
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              className="block text-sm text-text-muted mb-1"
+              htmlFor="name"
+            >
+              Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:border-accent"
+            />
+          </div>
           <div>
             <label
               className="block text-sm text-text-muted mb-1"
@@ -70,6 +88,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               required
+              minLength={5}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:border-accent"
@@ -81,13 +100,13 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-2 rounded-lg bg-accent text-white font-medium hover:bg-accent/80 transition-colors disabled:opacity-50"
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? 'Creating account…' : 'Create account'}
           </button>
         </form>
         <p className="mt-6 text-center text-sm text-text-muted">
-          Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-accent hover:underline">
-            Create one
+          Already have an account?{' '}
+          <Link href="/login" className="text-accent hover:underline">
+            Sign in
           </Link>
         </p>
       </div>
