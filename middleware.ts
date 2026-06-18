@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
 
 const JWKS = createRemoteJWKSet(
-  new URL(`${process.env.AUTH_SERVICE_URL ?? 'http://localhost:3001'}/api/auth/jwks`)
+  new URL(`${process.env.AUTH_SERVICE_URL}/api/auth/jwks`)
 )
 
 export async function middleware(request: NextRequest) {
