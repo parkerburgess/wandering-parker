@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
+    domain: process.env.NODE_ENV === 'production' ? '.wanderingparker.com' : undefined,
     maxAge: 60 * 60 * 24 * 7,
   })
 
