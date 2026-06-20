@@ -5,7 +5,7 @@ const JWKS = createRemoteJWKSet(
   new URL(`${process.env.AUTH_SERVICE_URL}/api/auth/jwks`)
 )
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const token = request.cookies.get('auth_token')?.value
 
   if (!token) {

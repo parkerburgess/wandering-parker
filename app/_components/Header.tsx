@@ -3,7 +3,11 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
-export default function Header() {
+interface HeaderProps {
+  userName?: string
+}
+
+export default function Header({ userName }: HeaderProps) {
   const pathname = usePathname()
   const router = useRouter()
   const isProjectPage = pathname.startsWith('/projects/')
@@ -47,6 +51,9 @@ export default function Header() {
               </svg>
               All Projects
             </Link>
+          )}
+          {userName && (
+            <span className="text-sm text-text-muted">{userName}</span>
           )}
           <button
             onClick={handleLogout}

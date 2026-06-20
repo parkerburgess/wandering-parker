@@ -13,7 +13,7 @@ async function getAccessibleApps(token: string): Promise<string[]> {
 }
 
 export default async function HomePage() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const token = cookieStore.get('auth_token')?.value ?? ''
   const accessibleApps = await getAccessibleApps(token)
   
