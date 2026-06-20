@@ -17,11 +17,7 @@ export default async function HomePage() {
   const token = cookieStore.get('auth_token')?.value ?? ''
   const accessibleApps = await getAccessibleApps(token)
   
-  console.log(`accessibleApps:  ${accessibleApps}`)
-  
   const visible = getProjects().filter((p) => accessibleApps.includes(p.subdomain))
-
-  console.log(`visible:  ${visible}`)
   
   const grouped: Record<string, Project[]> = {}
   for (const project of visible) {

@@ -29,29 +29,6 @@ export default function Header({ userName }: HeaderProps) {
         </Link>
 
         <div className="flex items-center gap-4">
-          {isProjectPage && (
-            <Link
-              href="/"
-              className="flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M10 12L6 8L10 4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              All Projects
-            </Link>
-          )}
           {userName && (
             <span className="text-sm text-text-muted">{userName}</span>
           )}

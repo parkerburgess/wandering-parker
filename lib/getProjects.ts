@@ -31,12 +31,3 @@ export function getProjects(): Project[] {
       : `https://${p.subdomain}.wanderingparker.com`,
   }))
 }
-
-export function getProjectsByCategory(): Record<string, Project[]> {
-  const groups: Record<string, Project[]> = {}
-  for (const project of getProjects()) {
-    if (!groups[project.category]) groups[project.category] = []
-    groups[project.category].push(project)
-  }
-  return groups
-}
