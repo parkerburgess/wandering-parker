@@ -6,9 +6,20 @@ import Link from 'next/link'
 
 interface Props {
   authServiceUrl: string
+  returnUrl?: string
 }
 
-export default function LoginForm({ authServiceUrl }: Props) {
+function isSafeReturnUrl(url: string | undefined): url is string {
+  if (!url) return false
+  if (url.startsWith('/')) return true
+  try {
+    return new URL(url).hostname === 'localhost'
+  } catch {
+    return false
+  }
+}
+
+export default function LoginForm({ authServiceUrl, returnUrl }: Props) {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,7 +39,7 @@ export default function LoginForm({ authServiceUrl }: Props) {
       })
 
       if (res.ok) {
-        router.push('/')
+        router.push(isSafeReturnUrl(returnUrl) ? returnUrl : '/')
         router.refresh()
       } else {
         setError('Invalid email or password.')

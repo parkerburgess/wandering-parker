@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:all": "concurrently --kill-others --names \"auth,wp,gbc\" --prefix-colors \"yellow,cyan,green\" \"npm run --prefix ../auth-wandering-parker dev\" \"npm run dev\" \"npm run --prefix ../good-bad-calendar dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,6 +20,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.21",
+    "concurrently": "^10.0.3",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.2.9",
     "postcss": "^8.5.3",

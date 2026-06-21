@@ -1,7 +1,12 @@
 import LoginForm from './LoginForm'
 
-export default function LoginPage() {
-  const authServiceUrl = process.env.AUTH_SERVICE_URL ?? 'not set'
+interface Props {
+  searchParams: Promise<{ return_url?: string }>
+}
 
-  return <LoginForm authServiceUrl={authServiceUrl} />
+export default async function LoginPage({ searchParams }: Props) {
+  const authServiceUrl = process.env.AUTH_SERVICE_URL ?? 'not set'
+  const { return_url } = await searchParams
+
+  return <LoginForm authServiceUrl={authServiceUrl} returnUrl={return_url} />
 }
