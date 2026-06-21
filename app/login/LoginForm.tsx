@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 interface Props {
@@ -20,7 +19,6 @@ function isSafeReturnUrl(url: string | undefined): url is string {
 }
 
 export default function LoginForm({ authServiceUrl, returnUrl }: Props) {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -40,8 +38,7 @@ export default function LoginForm({ authServiceUrl, returnUrl }: Props) {
       })
 
       if (res.ok) {
-        router.push(isSafeReturnUrl(returnUrl) ? returnUrl : '/')
-        router.refresh()
+        window.location.href = isSafeReturnUrl(returnUrl) ? returnUrl : '/'
       } else {
         setError('Invalid email or password.')
         setLoading(false)
