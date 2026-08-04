@@ -21,8 +21,8 @@ export default async function HomePage() {
   
   const grouped: Record<string, Project[]> = {}
   for (const project of visible) {
-    if (!grouped[project.category]) grouped[project.category] = []
-    grouped[project.category].push(project)
+    if (!grouped[project.learnings]) grouped[project.learnings] = []
+    grouped[project.learnings].push(project)
   }
   const categories = Object.keys(grouped)
 
@@ -42,13 +42,13 @@ export default async function HomePage() {
         </div>
       ) : (
         <div className="space-y-12">
-          {categories.map((category) => (
-            <section key={category}>
+          {categories.map((learnings) => (
+            <section key={learnings}>
               <h2 className="text-sm font-semibold uppercase tracking-widest text-text-muted mb-4">
-                {category}
+                {learnings}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {grouped[category].map((project) => (
+                {grouped[learnings].map((project) => (
                   <a
                     key={project.subdomain}
                     href={project.url}

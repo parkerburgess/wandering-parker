@@ -1,30 +1,29 @@
 [
   {
     "name": "Flash Cards",
-    "description": "Create and study flash cards, run practice tests, and track your results.",
-    "category": "Tools",
+    "description": "A very simple flash card app that I used to see how Claude would do.  There isn't ",
+    "learnings": "First Claude Test",
     "image": "/images/flash-cards.png",
     "subdomain": "flash-cards"
   } ,
   {
     "name": "Good Bad",
     "description": "A calendar to keep track of how well you are meeting goals.",
-    "category": "Tools",
+    "learnings": "Tools",
     "image": "/images/flash-cards.png",
-    "subdomain": "good-bad-calendar",
-    "devPort": 3002
+    "subdomain": "good-bad-calendar"
   } ,
   {
     "name": "Patan",
     "description": "A personalized version of Catan.",
-    "category": "Board Games",
+    "learnings": "Board Games",
     "image": "/images/patan.png",
     "subdomain": "patan"
   },
   {
     "name": "Fly Fishing Tracker",
     "description": "Track outings, log catches, score your sessions, and view performance reports.",
-    "category": "Outdoors",
+    "learnings": "Outdoors",
     "image": "/images/fly-fishing.png",
     "subdomain": "fly-fishing-tracker"
   }  
