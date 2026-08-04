@@ -14,7 +14,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   } catch {
     const response = NextResponse.redirect(new URL('/login', request.url))
-    response.cookies.delete('auth_token')
+    // Must match the domain/path the cookie was set with (see
+    // app/api/auth/login/route.ts) or this clears a different, host-only
+    // cookie and leaves the real session cookie in place.
+    response.cookies.delete({
+      name: 'auth_token',
+      path: '/',
+      domain: process.env.NODE_ENV === 'production' ? '.wanderingparker.com' : undefined,
+    })
     return response
   }
 }
