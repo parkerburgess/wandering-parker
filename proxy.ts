@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRemoteJWKSet, jwtVerify } from 'jose'
-
-const JWKS = createRemoteJWKSet(
-  new URL(`${process.env.AUTH_SERVICE_URL}/api/auth/jwks`)
-)
+import { jwtVerify } from 'jose'
+import { authJwks } from '@/lib/auth'
 
 export async function proxy(request: NextRequest) {
   const token = request.cookies.get('auth_token')?.value
@@ -13,7 +10,7 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    await jwtVerify(token, JWKS)
+    await jwtVerify(token, authJwks)
     return NextResponse.next()
   } catch {
     const response = NextResponse.redirect(new URL('/login', request.url))

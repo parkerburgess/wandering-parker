@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import { decodeJwt } from 'jose'
 import './globals.css'
 import Header from './_components/Header'
+import { getVerifiedAuthName } from '@/lib/auth'
 
 export const metadata: Metadata = {
   title: 'WanderingParker',
@@ -16,15 +16,7 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies()
   const token = cookieStore.get('auth_token')?.value
-  let userName: string | undefined
-  if (token) {
-    try {
-      const payload = decodeJwt(token)
-      userName = (payload.name as string) || (payload.email as string) || undefined
-    } catch {
-      // token malformed — show nothing
-    }
-  }
+  const userName = await getVerifiedAuthName(token)
 
   return (
     <html lang="en">

@@ -125,7 +125,8 @@ export default function LoginForm({ authServiceUrl, returnUrl }: Props) {
           </Link>
         </p>
         <div className="mt-8 p-3 rounded-lg border border-border bg-surface text-xs text-text-muted font-mono">
-          <p><span className="text-text-primary">auth:</span> {authServiceUrl}</p>
+          <p>guest access with username/password:</p>
+          <p>guest@gmail.com/guest</p>
         </div>
       </div>
     </div>
