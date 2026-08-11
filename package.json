@@ -12,19 +12,19 @@
   "dependencies": {
     "jose": "^6.2.3",
     "next": "16.2.9",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20.17.57",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "autoprefixer": "^10.4.21",
     "concurrently": "^10.0.3",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.2.9",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4",
     "typescript": "^5.8.3",
     "wait-on": "^9.0.10"
   }
