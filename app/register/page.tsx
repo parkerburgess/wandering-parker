@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Button, Input, PasswordInput } from '@parkerburgess/wandering-parker-ui'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -38,74 +39,56 @@ export default function RegisterPage() {
     }
   }
 
+  // #region Tailwind utility consts
+  const pageCls = 'min-h-[calc(100vh-3.5rem)] flex items-center justify-center'
+  const cardCls = 'w-full max-w-sm'
+  const titleCls = 'text-2xl font-bold text-neutral-800 mb-8 text-center'
+  const formCls = 'space-y-4'
+  const errorTextCls = 'text-sm text-incorrect-600'
+  const submitBtnCls = 'w-full'
+  const loginPromptCls = 'mt-6 text-center text-sm text-neutral-500'
+  const loginLinkCls = 'text-brand-600 hover:underline'
+  // #endregion
+
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center">
-      <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-text-primary mb-8 text-center">
+    <div className={pageCls}>
+      <div className={cardCls}>
+        <h1 className={titleCls}>
           Create account
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              className="block text-sm text-text-muted mb-1"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:border-accent"
-            />
-          </div>
-          <div>
-            <label
-              className="block text-sm text-text-muted mb-1"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:border-accent"
-            />
-          </div>
-          <div>
-            <label
-              className="block text-sm text-text-muted mb-1"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              minLength={5}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:border-accent"
-            />
-          </div>
-          {error && <p className="text-sm text-red-500">{error}</p>}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 rounded-lg bg-accent text-white font-medium hover:bg-accent/80 transition-colors disabled:opacity-50"
-          >
+        <form onSubmit={handleSubmit} className={formCls}>
+          <Input
+            id="name"
+            label="Name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            id="email"
+            label="Email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <PasswordInput
+            id="password"
+            label="Password"
+            required
+            minLength={5}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p className={errorTextCls}>{error}</p>}
+          <Button type="submit" disabled={loading} className={submitBtnCls}>
             {loading ? 'Creating account…' : 'Create account'}
-          </button>
+          </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-text-muted">
+        <p className={loginPromptCls}>
           Already have an account?{' '}
-          <Link href="/login" className="text-accent hover:underline">
+          <Link href="/login" className={loginLinkCls}>
             Sign in
           </Link>
         </p>

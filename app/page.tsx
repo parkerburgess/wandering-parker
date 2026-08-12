@@ -26,52 +26,73 @@ export default async function HomePage() {
   }
   const categories = Object.keys(grouped)
 
+  // #region Tailwind utility consts
+  const headingWrapCls = 'mb-10'
+  const headingCls = 'text-3xl font-bold text-neutral-800 mb-2'
+  const subheadingCls = 'text-neutral-500'
+  const emptyStateCls = 'text-center py-24 text-neutral-500'
+  const emptyStateTitleCls = 'text-lg'
+  const emptyStateSubtitleCls = 'text-sm mt-1'
+  const categoryListCls = 'space-y-12'
+  const categoryHeadingCls = 'text-sm font-semibold uppercase tracking-widest text-neutral-500 mb-4'
+  const gridCls = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
+  const projectCardCls =
+    'group block rounded-xl overflow-hidden border border-neutral-200 bg-card ' +
+    'hover:border-brand-400/50 transition-all duration-200 hover:shadow-lg ' +
+    'hover:shadow-brand-600/5 hover:-translate-y-0.5'
+  const thumbnailWrapCls = 'aspect-video bg-subtle overflow-hidden'
+  const cardBodyCls = 'p-5'
+  const projectNameCls = 'text-lg font-semibold text-neutral-800 group-hover:text-brand-600 transition-colors'
+  const projectDescCls = 'mt-1 text-sm text-neutral-500 line-clamp-2'
+  const projectUrlCls = 'mt-3 text-xs text-brand-600/70 font-medium'
+  // #endregion
+
   return (
     <div>
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">Projects</h1>
-        <p className="text-text-muted">
+      <div className={headingWrapCls}>
+        <h1 className={headingCls}>Projects</h1>
+        <p className={subheadingCls}>
           A collection of interactive experiments and tools.
         </p>
       </div>
 
       {categories.length === 0 ? (
-        <div className="text-center py-24 text-text-muted">
-          <p className="text-lg">No projects available.</p>
-          <p className="text-sm mt-1">No apps have been granted to your account yet.</p>
+        <div className={emptyStateCls}>
+          <p className={emptyStateTitleCls}>No projects available.</p>
+          <p className={emptyStateSubtitleCls}>No apps have been granted to your account yet.</p>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div className={categoryListCls}>
           {categories.map((learnings) => (
             <section key={learnings}>
-              <h2 className="text-sm font-semibold uppercase tracking-widest text-text-muted mb-4">
+              <h2 className={categoryHeadingCls}>
                 {learnings}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className={gridCls}>
                 {grouped[learnings].map((project) => (
                   <a
                     key={project.subdomain}
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group block rounded-xl overflow-hidden border border-border bg-surface hover:border-accent/50 transition-all duration-200 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-0.5"
+                    className={projectCardCls}
                   >
-                    <div className="aspect-video bg-background overflow-hidden">
+                    <div className={thumbnailWrapCls}>
                       <ProjectImage
                         src={project.image}
                         alt={`${project.name} thumbnail`}
                       />
                     </div>
-                    <div className="p-5">
-                      <h3 className="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
+                    <div className={cardBodyCls}>
+                      <h3 className={projectNameCls}>
                         {project.name}
                       </h3>
                       {project.description && (
-                        <p className="mt-1 text-sm text-text-muted line-clamp-2">
+                        <p className={projectDescCls}>
                           {project.description}
                         </p>
                       )}
-                      <p className="mt-3 text-xs text-accent/70 font-medium">
+                      <p className={projectUrlCls}>
                         {project.subdomain}.wanderingparker.com ↗
                       </p>
                     </div>

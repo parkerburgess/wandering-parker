@@ -18,11 +18,16 @@ export default async function RootLayout({
   const token = cookieStore.get('auth_token')?.value
   const userName = await getVerifiedAuthName(token)
 
+  // #region Tailwind utility consts
+  const bodyCls = 'min-h-screen'
+  const mainCls = 'max-w-6xl mx-auto px-4 py-8'
+  // #endregion
+
   return (
     <html lang="en">
-      <body className="min-h-screen bg-background text-text-primary">
+      <body className={bodyCls}>
         <Header userName={userName} />
-        <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
+        <main className={mainCls}>{children}</main>
       </body>
     </html>
   )

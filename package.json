@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"next dev\" \"wait-on http://localhost:3000 && start chrome --incognito http://localhost:3000\"",
+    "dev:server-only": "next dev",
     "dev:all": "concurrently --kill-others --names \"auth,wp,gbc\" --prefix-colors \"yellow,cyan,green\" \"npm run --prefix ../auth-wandering-parker dev\" \"npm run dev\" \"npm run --prefix ../good-bad-calendar dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@parkerburgess/wandering-parker-theme": "^0.2.0",
+    "@parkerburgess/wandering-parker-ui": "^0.5.0",
     "jose": "^6.2.3",
     "next": "16.2.9",
     "react": "19.2.8",
