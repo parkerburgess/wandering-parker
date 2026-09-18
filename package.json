@@ -14,7 +14,7 @@
     "@parkerburgess/wandering-parker-theme": "^0.2.0",
     "@parkerburgess/wandering-parker-ui": "^0.5.0",
     "jose": "^6.2.3",
-    "next": "16.2.9",
+    "next": "16.3.5",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
@@ -25,7 +25,7 @@
     "@types/react-dom": "^19.0.0",
     "concurrently": "^10.0.3",
     "eslint": "^9.0.0",
-    "eslint-config-next": "16.2.9",
+    "eslint-config-next": "16.3.5",
     "postcss": "^8.5.3",
     "tailwindcss": "^4",
     "typescript": "^5.8.3",
