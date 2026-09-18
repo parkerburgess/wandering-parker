@@ -44,10 +44,10 @@ export default function RegisterPage() {
   const cardCls = 'w-full max-w-sm'
   const titleCls = 'text-2xl font-bold text-neutral-800 mb-8 text-center'
   const formCls = 'space-y-4'
-  const errorTextCls = 'text-sm text-incorrect-600'
+  const errorTextCls = 'text-sm text-danger-700'
   const submitBtnCls = 'w-full'
   const loginPromptCls = 'mt-6 text-center text-sm text-neutral-500'
-  const loginLinkCls = 'text-brand-600 hover:underline'
+  const loginLinkCls = 'text-primary-600 hover:underline'
   // #endregion
 
   return (

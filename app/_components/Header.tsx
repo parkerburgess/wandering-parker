@@ -11,7 +11,7 @@ export default function Header({ userName }: HeaderProps) {
     'border-b border-neutral-200 bg-surface/80 backdrop-blur-sm sticky top-0 z-50'
   const innerCls = 'max-w-6xl mx-auto px-4 h-14 flex items-center justify-between'
   const brandCls =
-    'text-brand-600 font-semibold text-lg tracking-wide hover:text-brand-700 transition-colors'
+    'text-primary-600 font-semibold text-lg tracking-wide hover:text-primary-700 transition-colors'
   // #endregion
 
   return (

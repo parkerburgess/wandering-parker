@@ -38,13 +38,13 @@ export default async function HomePage() {
   const gridCls = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
   const projectCardCls =
     'group block rounded-xl overflow-hidden border border-neutral-200 bg-card ' +
-    'hover:border-brand-400/50 transition-all duration-200 hover:shadow-lg ' +
-    'hover:shadow-brand-600/5 hover:-translate-y-0.5'
+    'hover:border-primary-400/50 transition-all duration-200 hover:shadow-lg ' +
+    'hover:shadow-primary-600/5 hover:-translate-y-0.5'
   const thumbnailWrapCls = 'aspect-video bg-subtle overflow-hidden'
   const cardBodyCls = 'p-5'
-  const projectNameCls = 'text-lg font-semibold text-neutral-800 group-hover:text-brand-600 transition-colors'
+  const projectNameCls = 'text-lg font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors'
   const projectDescCls = 'mt-1 text-sm text-neutral-500 line-clamp-2'
-  const projectUrlCls = 'mt-3 text-xs text-brand-600/70 font-medium'
+  const projectUrlCls = 'mt-3 text-xs text-primary-600/70 font-medium'
   // #endregion
 
   return (
