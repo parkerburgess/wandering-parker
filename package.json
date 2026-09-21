@@ -11,8 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@parkerburgess/wandering-parker-theme": "^0.3.1",
-    "@parkerburgess/wandering-parker-ui": "^0.6.1",
+    "@parkerburgess/wandering-parker-ui": "^1.0.0",
     "jose": "^6.2.3",
     "next": "16.3.5",
     "react": "19.2.8",
