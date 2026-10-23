@@ -1,30 +1,30 @@
 [
   {
-    "name": "Flash Cards",
+    "name": "Sharpener",
     "description": "A very simple flash card app that I used to see how Claude would do.  There isn't ",
-    "learnings": "First Claude Test",
-    "image": "/images/flash-cards.png",
-    "subdomain": "flash-cards"
+    "learnings": "Sharpener Learnings Property",
+    "image": "/images/sharpener.jpg",
+    "subdomain": "sharpener"
   } ,
   {
-    "name": "Good Bad",
+    "name": "Good Bad Calender",
     "description": "A calendar to keep track of how well you are meeting goals.",
     "learnings": "Tools",
-    "image": "/images/flash-cards.png",
+    "image": "/images/good-bad-calendar.jpg",
     "subdomain": "good-bad-calendar"
   } ,
   {
-    "name": "Patan",
-    "description": "A personalized version of Catan.",
-    "learnings": "Board Games",
-    "image": "/images/patan.png",
-    "subdomain": "patan"
+    "name": "No File No Mile",
+    "description": "Training Planning and Tracking",
+    "learnings": "asflidjfsdfs   learnings",
+    "image": "/images/no-file-no-mile.jpg",
+    "subdomain": "no-file-no-mile"
   },
   {
     "name": "Fly Fishing Tracker",
     "description": "Track outings, log catches, score your sessions, and view performance reports.",
     "learnings": "Outdoors",
-    "image": "/images/fly-fishing.png",
+    "image": "/images/fly-fishing.jpg",
     "subdomain": "fly-fishing-tracker"
   }  
 ]
