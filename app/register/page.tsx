@@ -40,7 +40,7 @@ export default function RegisterPage() {
   }
 
   // #region Tailwind utility consts
-  const pageCls = 'min-h-[calc(100vh-3.5rem)] flex items-center justify-center'
+  const pageCls = 'min-h-[calc(100vh-5rem)] flex items-center justify-center'
   const cardCls = 'w-full max-w-sm'
   const titleCls = 'text-2xl font-bold text-neutral-800 mb-8 text-center'
   const formCls = 'space-y-4'

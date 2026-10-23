@@ -26,6 +26,11 @@ export async function proxy(request: NextRequest) {
   }
 }
 
+// Static images in public/ skip auth: the header banner shows on the
+// signed-out login page, and next/image's optimizer fetches its source
+// without the visitor's cookie, so a redirect here breaks every <Image>.
 export const config = {
-  matcher: ['/((?!login|register|_next/static|_next/image|favicon.ico|icon.jpg|api/auth).*)'],
+  matcher: [
+    '/((?!login|register|_next/static|_next/image|favicon.ico|api/auth|.*\\.(?:jpg|jpeg|png|gif|svg|webp)$).*)',
+  ],
 }
