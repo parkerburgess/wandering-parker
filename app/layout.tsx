@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
+import { ThemeProvider } from '@parkerburgess/wandering-parker-ui'
 import './globals.css'
 import Header from './_components/Header'
 import { getVerifiedAuthName } from '@/lib/auth'
@@ -24,10 +25,12 @@ export default async function RootLayout({
   // #endregion
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={bodyCls}>
-        <Header userName={userName} />
-        <main className={mainCls}>{children}</main>
+        <ThemeProvider>
+          <Header userName={userName} />
+          <main className={mainCls}>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   )

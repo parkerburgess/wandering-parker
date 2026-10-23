@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { UserMenu } from '@parkerburgess/wandering-parker-ui'
+import HeaderUserMenu from './HeaderUserMenu'
 
 interface HeaderProps {
   userName?: string
@@ -20,7 +20,7 @@ export default function Header({ userName }: HeaderProps) {
         <Link href="/" className={brandCls}>
           WanderingParker
         </Link>
-        {userName && <UserMenu userName={userName} />}
+        {userName && <HeaderUserMenu userName={userName} />}
       </div>
     </header>
   )
