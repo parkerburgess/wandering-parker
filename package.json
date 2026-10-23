@@ -8,7 +8,7 @@
     "dev:all": "concurrently --kill-others --names \"auth,wp,gbc\" --prefix-colors \"yellow,cyan,green\" \"npm run --prefix ../auth-wandering-parker dev\" \"npm run dev\" \"npm run --prefix ../good-bad-calendar dev\"",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint"
   },
   "dependencies": {
     "@parkerburgess/wandering-parker-ui": "^1.1.2",

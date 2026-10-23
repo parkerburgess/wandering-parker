@@ -11,7 +11,6 @@ import {
 } from '@parkerburgess/wandering-parker-ui'
 
 interface Props {
-  authServiceUrl: string
   returnUrl?: string
 }
 
@@ -25,7 +24,7 @@ function isSafeReturnUrl(url: string | undefined): url is string {
   }
 }
 
-export default function LoginForm({ authServiceUrl, returnUrl }: Props) {
+export default function LoginForm({ returnUrl }: Props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
