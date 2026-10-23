@@ -16,7 +16,7 @@ export default function ProjectImage({ src, alt }: ProjectImageProps) {
 
   // #region Tailwind utility consts
   const wrapperCls = 'relative w-full h-full'
-  const imgCls = 'object-cover group-hover:scale-105 transition-transform duration-300'
+  const imgCls = 'object-contain group-hover:scale-105 transition-transform duration-300'
   const fallbackCls = 'w-full h-full grid place-items-center'
   const fallbackTextCls = 'text-neutral-500 text-sm'
   // #endregion

@@ -40,7 +40,9 @@ export default async function HomePage() {
     'group block rounded-xl overflow-hidden border border-neutral-200 bg-card ' +
     'hover:border-primary-400/50 transition-all duration-200 hover:shadow-lg ' +
     'hover:shadow-primary-600/5 hover:-translate-y-0.5'
-  const thumbnailWrapCls = 'aspect-video bg-subtle overflow-hidden'
+  // Black to blend with the thumbnails' own black backgrounds, so the
+  // letterboxing from object-contain doesn't show as bars.
+  const thumbnailWrapCls = 'aspect-video bg-black overflow-hidden'
   const cardBodyCls = 'p-5'
   const projectNameCls = 'text-lg font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors'
   const projectDescCls = 'mt-1 text-sm text-neutral-500 line-clamp-2'
