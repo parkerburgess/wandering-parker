@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
-import { authJwks } from '@/lib/auth'
+import { authJwks, isAuthDisabled } from '@/lib/auth'
 
 export async function proxy(request: NextRequest) {
+  if (isAuthDisabled()) {
+    return NextResponse.next()
+  }
+
   const token = request.cookies.get('auth_token')?.value
 
   if (!token) {
