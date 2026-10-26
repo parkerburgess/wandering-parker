@@ -19,12 +19,5 @@
     "skills": "NextJS",
     "art": "fly-fishing",
     "subdomain": "fly-fishing-tracker"
-  },
-  {
-    "name": "Good Bad Calender",
-    "description": "A calendar to keep track of how well you are meeting goals.",
-    "skills": "NextJS",
-    "art": "good-bad-calendar",
-    "subdomain": "good-bad-calendar"
   }
 ]
