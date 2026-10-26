@@ -32,3 +32,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# untouched source images saved by scripts/recolor-images.mjs
+public/images/*.original.jpg
