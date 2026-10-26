@@ -8,8 +8,8 @@ interface ProjectImageProps {
   alt: string
 }
 
-// Matches the home grid: 1 column, 2 from sm, 4 from lg inside max-w-6xl.
-const GRID_IMAGE_SIZES = '(min-width: 1024px) 280px, (min-width: 640px) 50vw, 100vw'
+// Thumbnail is 2/5 of the card. Home grid: 1 column, 2 from lg inside max-w-6xl.
+const GRID_IMAGE_SIZES = '(min-width: 1024px) 220px, 40vw'
 
 export default function ProjectImage({ src, alt }: ProjectImageProps) {
   const [hasLoadError, setHasLoadError] = useState(false)

@@ -13,13 +13,16 @@ const THUMBNAIL_BG_COLOR = '#566b8a'
 export default function ProjectCard({ project }: ProjectCardProps) {
   // #region Tailwind utility consts
   const projectCardCls =
-    'group block rounded-xl overflow-hidden border bg-card ' +
+    'group grid grid-cols-[2fr_3fr] h-64 rounded-xl overflow-hidden ' +
+    'border bg-card ' +
     'transition-all duration-200 hover:shadow-lg ' +
     'hover:shadow-primary-600/5 hover:-translate-y-0.5'
-  const thumbnailWrapCls = 'aspect-video overflow-hidden'
-  const cardBodyCls = 'p-5'
+  const thumbnailWrapCls = 'overflow-hidden'
+  const cardBodyCls = 'grid grid-rows-[auto_auto_1fr] gap-3 min-h-0 p-5'
   const projectNameCls = 'text-lg font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors'
-  const projectDescCls = 'mt-1 text-sm text-neutral-500 line-clamp-2'
+  const skillListCls = 'flex flex-wrap gap-2'
+  const skillChipCls = 'rounded-full bg-neutral-400 px-2 py-1 text-sm text-neutral-800'
+  const projectDescCls = 'text-sm text-neutral-500 overflow-hidden line-clamp-4'
   // #endregion
 
   return (
@@ -43,6 +46,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <h3 className={projectNameCls}>
           {project.name}
         </h3>
+        {project.skills.length > 0 && (
+          <ul className={skillListCls}>
+            {project.skills.map((skill) => (
+              <li key={skill} className={skillChipCls}>
+                {skill}
+              </li>
+            ))}
+          </ul>
+        )}
         {project.description && (
           <p className={projectDescCls}>
             {project.description}

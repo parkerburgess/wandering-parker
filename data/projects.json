@@ -1,30 +1,30 @@
 [
   {
     "name": "Sharpener",
-    "description": "A very simple flash card app that I used to see how Claude would do.  There isn't ",
-    "learnings": "Sharpener Learnings Property",
+    "description": "A training application that uses a Claude agent to generate questions based on given topics.  Using those questions study sessions and exams can be given. Results and progress are tracked.",
+    "skills": "NextJS, Agent-AI, SSO, SQL Server, Typescript, Tailwind",
     "image": "/images/sharpener.jpg",
     "subdomain": "sharpener"
   } ,
   {
-    "name": "Good Bad Calender",
-    "description": "A calendar to keep track of how well you are meeting goals.",
-    "learnings": "Tools",
-    "image": "/images/good-bad-calendar.jpg",
-    "subdomain": "good-bad-calendar"
-  } ,
-  {
     "name": "No File No Mile",
     "description": "Training Planning and Tracking",
-    "learnings": "asflidjfsdfs   learnings",
+    "skills": "NextJS, Agent-AI",
     "image": "/images/no-file-no-mile.jpg",
     "subdomain": "no-file-no-mile"
   },
   {
     "name": "Fly Fishing Tracker",
     "description": "Track outings, log catches, score your sessions, and view performance reports.",
-    "learnings": "Outdoors",
+    "skills": "NextJS",
     "image": "/images/fly-fishing.jpg",
     "subdomain": "fly-fishing-tracker"
-  }  
+  },
+  {
+    "name": "Good Bad Calender",
+    "description": "A calendar to keep track of how well you are meeting goals.",
+    "skills": "NextJS",
+    "image": "/images/good-bad-calendar.jpg",
+    "subdomain": "good-bad-calendar"
+  }
 ]

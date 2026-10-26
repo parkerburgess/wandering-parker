@@ -35,7 +35,7 @@ export default async function HomePage() {
   const emptyStateCls = 'text-center py-24 text-neutral-500'
   const emptyStateTitleCls = 'text-lg'
   const emptyStateSubtitleCls = 'text-sm mt-1'
-  const gridCls = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'
+  const gridCls = 'grid grid-cols-1 lg:grid-cols-2 gap-6'
   // #endregion
 
   return (
