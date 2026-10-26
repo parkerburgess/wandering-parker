@@ -6,10 +6,10 @@ interface HeaderUserMenuProps {
   userName: string
 }
 
-// Header stays a server component; the theme toggle needs useTheme, so the
-// menu lives in this small client island.
+// Header stays a server component; the theme toggle and palette picker need
+// useTheme, so the menu lives in this small client island.
 export default function HeaderUserMenu({ userName }: HeaderUserMenuProps) {
-  const { resolvedTheme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme, palette, setPalette } = useTheme()
 
   function handleToggleTheme() {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
@@ -20,6 +20,8 @@ export default function HeaderUserMenu({ userName }: HeaderUserMenuProps) {
       userName={userName}
       theme={resolvedTheme}
       onToggleTheme={handleToggleTheme}
+      palette={palette}
+      onSelectPalette={setPalette}
     />
   )
 }
