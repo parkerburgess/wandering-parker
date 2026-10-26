@@ -1,23 +1,19 @@
 import { Project } from '@/lib/getProjects'
-import ProjectImage from './ProjectImage'
+import ProjectArt from './ProjectArt'
 
 interface ProjectCardProps {
   project: Project
 }
 
-// Matches the background baked into the thumbnails, so the letterboxing
-// from object-contain doesn't show as bars. Also used for the card border.
-// Set by scripts/recolor-images.mjs - change it there, not here.
-const THUMBNAIL_BG_COLOR = '#566b8a'
-
 export default function ProjectCard({ project }: ProjectCardProps) {
   // #region Tailwind utility consts
   const projectCardCls =
     'group grid grid-cols-[2fr_3fr] h-64 rounded-xl overflow-hidden ' +
-    'border bg-card ' +
+    'border border-neutral-400 bg-card ' +
     'transition-all duration-200 hover:shadow-lg ' +
     'hover:shadow-primary-600/5 hover:-translate-y-0.5'
-  const thumbnailWrapCls = 'overflow-hidden'
+  // The art is transparent, so this tint is what shows behind it.
+  const thumbnailWrapCls = 'overflow-hidden bg-neutral-50'
   const cardBodyCls = 'grid grid-rows-[auto_auto_1fr] gap-3 min-h-0 p-5'
   const projectNameCls = 'text-lg font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors'
   const skillListCls = 'flex flex-wrap gap-2'
@@ -31,16 +27,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       target="_blank"
       rel="noopener noreferrer"
       className={projectCardCls}
-      style={{ borderColor: THUMBNAIL_BG_COLOR }}
     >
-      <div
-        className={thumbnailWrapCls}
-        style={{ backgroundColor: THUMBNAIL_BG_COLOR }}
-      >
-        <ProjectImage
-          src={project.image}
-          alt={`${project.name} thumbnail`}
-        />
+      <div className={thumbnailWrapCls}>
+        <ProjectArt art={project.art} />
       </div>
       <div className={cardBodyCls}>
         <h3 className={projectNameCls}>

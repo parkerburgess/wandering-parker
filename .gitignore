@@ -33,5 +33,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# untouched source images saved by scripts/recolor-images.mjs
+# untouched source images the project-art SVGs were traced from (local only)
 public/images/*.original.jpg

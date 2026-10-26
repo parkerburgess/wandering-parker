@@ -3,28 +3,28 @@
     "name": "Sharpener",
     "description": "A training application that uses a Claude agent to generate questions based on given topics.  Using those questions study sessions and exams can be given. Results and progress are tracked.",
     "skills": "NextJS, Agent-AI, SSO, SQL Server, Typescript, Tailwind",
-    "image": "/images/sharpener.jpg",
+    "art": "sharpener",
     "subdomain": "sharpener"
   } ,
   {
     "name": "No File No Mile",
     "description": "Training Planning and Tracking",
     "skills": "NextJS, Agent-AI",
-    "image": "/images/no-file-no-mile.jpg",
+    "art": "no-file-no-mile",
     "subdomain": "no-file-no-mile"
   },
   {
     "name": "Fly Fishing Tracker",
     "description": "Track outings, log catches, score your sessions, and view performance reports.",
     "skills": "NextJS",
-    "image": "/images/fly-fishing.jpg",
+    "art": "fly-fishing",
     "subdomain": "fly-fishing-tracker"
   },
   {
     "name": "Good Bad Calender",
     "description": "A calendar to keep track of how well you are meeting goals.",
     "skills": "NextJS",
-    "image": "/images/good-bad-calendar.jpg",
+    "art": "good-bad-calendar",
     "subdomain": "good-bad-calendar"
   }
 ]

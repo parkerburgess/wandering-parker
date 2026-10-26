@@ -1,2 +1,43 @@
 @import "tailwindcss";
 @import "@parkerburgess/wandering-parker-ui/theme.css";
+
+:root {
+  /* Base colors — change these to retheme the app.
+     Only ONE block below should be uncommented at a time. */
+
+  /* ── Current: Orange + Navy (active) ───────────────── */
+/*
+  --primary: #FA4616;
+  --neutral: #001489;
+  --success: #15803D;
+  --danger: #DC2626;
+  --warning: #ca8a04;
+*/
+
+  /* ── Option 1: Blue + Cool Slate ───────────────────── */
+  /*
+  --primary: #2563EB;
+  --neutral: #64748B;
+  --success: #16A34A;
+  --danger: #DC2626;
+  --warning: #D97706;
+  */
+
+  /* ── Option 2: Indigo + Zinc ───────────────────────── */
+  /*
+  --primary: #4F46E5;
+  --neutral: #71717A;
+  --success: #059669;
+  --danger: #E11D48;
+  --warning: #D97706;
+  */
+
+  /* ── Option 3: Emerald + Warm Stone ────────────────── */
+ /*
+  --primary: #059669;
+  --neutral: #78716C;
+  --success: #15803D;
+  --danger: #DC2626;
+  --warning: #B45309;
+ */
+}

@@ -1,10 +1,11 @@
 import projectsData from '../data/projects.json'
+import { isProjectArtKey, ProjectArtKey } from './projectArt'
 
 interface ProjectData {
   name: string
   description: string
   skills: string
-  image: string
+  art: string
   subdomain: string
 }
 
@@ -12,7 +13,8 @@ export interface Project {
   name: string
   description: string
   skills: string[]
-  image: string
+  // null when projects.json names art that doesn't exist; the card shows a fallback.
+  art: ProjectArtKey | null
   subdomain: string
   url: string
 }
@@ -30,7 +32,7 @@ export function getProjects(): Project[] {
     name: p.name,
     description: p.description,
     skills: parseSkills(p.skills),
-    image: p.image,
+    art: isProjectArtKey(p.art) ? p.art : null,
     subdomain: p.subdomain,
     url: `https://${p.subdomain}.wanderingparker.com`,
   }))
