@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { getProjects, Project } from '@/lib/getProjects'
 import { isAuthDisabled } from '@/lib/auth'
 import ProjectCard from './_components/ProjectCard'
+import ProfilePanel from './_components/ProfilePanel'
 
 async function getAccessibleApps(token: string): Promise<string[]> {
   const res = await fetch(`${process.env.AUTH_SERVICE_URL}/api/user/apps`, {
@@ -29,36 +30,41 @@ export default async function HomePage() {
   const visibleProjects = await getVisibleProjects()
 
   // #region Tailwind utility consts
+  // Below lg the profile drops under the projects at full width.
+  const pageCls = 'grid grid-cols-1 lg:grid-cols-[1fr_18rem] items-start gap-8'
   const headingWrapCls = 'mb-10'
   const headingCls = 'text-3xl font-bold text-neutral-800 mb-2'
   const subheadingCls = 'text-neutral-500'
   const emptyStateCls = 'text-center py-24 text-neutral-500'
   const emptyStateTitleCls = 'text-lg'
   const emptyStateSubtitleCls = 'text-sm mt-1'
-  const gridCls = 'grid grid-cols-1 lg:grid-cols-2 gap-6'
+  const gridCls = 'grid grid-cols-1 gap-6'
   // #endregion
 
   return (
-    <div>
-      <div className={headingWrapCls}>
-        <h1 className={headingCls}>Projects</h1>
-        <p className={subheadingCls}>
-          A collection of interactive experiments and tools.
-        </p>
-      </div>
+    <div className={pageCls}>
+      <div>
+        <div className={headingWrapCls}>
+          <h1 className={headingCls}>Projects</h1>
+          <p className={subheadingCls}>
+            A collection of interactive experiments and tools.
+          </p>
+        </div>
 
-      {visibleProjects.length === 0 ? (
-        <div className={emptyStateCls}>
-          <p className={emptyStateTitleCls}>No projects available.</p>
-          <p className={emptyStateSubtitleCls}>No apps have been granted to your account yet.</p>
-        </div>
-      ) : (
-        <div className={gridCls}>
-          {visibleProjects.map((project) => (
-            <ProjectCard key={project.subdomain} project={project} />
-          ))}
-        </div>
-      )}
+        {visibleProjects.length === 0 ? (
+          <div className={emptyStateCls}>
+            <p className={emptyStateTitleCls}>No projects available.</p>
+            <p className={emptyStateSubtitleCls}>No apps have been granted to your account yet.</p>
+          </div>
+        ) : (
+          <div className={gridCls}>
+            {visibleProjects.map((project) => (
+              <ProjectCard key={project.subdomain} project={project} />
+            ))}
+          </div>
+        )}
+      </div>
+      <ProfilePanel />
     </div>
   )
 }
