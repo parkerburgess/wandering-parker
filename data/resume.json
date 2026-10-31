@@ -1,0 +1,126 @@
+{
+  "name": "Parker Burgess",
+  "email": "parkerburgess@outlook.com",
+  "location": "San Antonio, TX",
+  "summary": [
+    "Versatile software engineer with 14+ years of experience, most of it at a company that grew from an early-stage startup into a stable product business. Comfortable in environments where priorities shift quickly and roles stay broad — moving from early product exploration and stack refactors, to supporting the core product and internal data processes, to designing and owning internal applications, and eventually setting technical direction for a small cross-functional team. Regularly combined hands-on development (C#, JavaScript/TypeScript, SQL Server) with system and database design, Azure infrastructure, requirements gathering, and mentoring.",
+    "Years spent as a manager still show up in how technical choices get made: strong code, judged against business priorities rather than craft alone. Effective where scope is wide, context changes fast, and delivery depends on both building the work and keeping the team aligned."
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": "C#, JavaScript, TypeScript, T-SQL, HTML/CSS"
+    },
+    {
+      "category": "Frameworks & Platforms",
+      "items": ".NET Core / .NET Framework, Blazor, Aurelia, Next.js/React (self-directed projects)"
+    },
+    {
+      "category": "Databases",
+      "items": "SQL Server, Database Design & Normalization, Performance Tuning, ETL / Data Integration"
+    },
+    {
+      "category": "Cloud & Tools",
+      "items": "Microsoft Azure, Git"
+    },
+    {
+      "category": "Architecture & Practices",
+      "items": "Software Architecture, System Design, Application Security"
+    },
+    {
+      "category": "Leadership & Delivery",
+      "items": "Team Leadership & Mentoring, Project Management, Product Management, Requirements Gathering, Cross-Functional Collaboration"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Travel Sabbatical",
+      "dates": "2024 – 2026",
+      "roles": [
+        {
+          "bullets": [
+            "Took a deliberate two-year break to travel extensively, focusing on personal growth, cultural immersion, and adaptability."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "B3 Insight",
+      "dates": "2014 – 2024",
+      "description": "Software company that grew from an early-stage startup into a stable, established product business.",
+      "roles": [
+        {
+          "title": "Lead Software Engineer – Team Lead",
+          "dates": "2022 – 2024",
+          "bullets": [
+            "Set technical direction and delivery planning for a team of 5 developers, 2 analysts, including hiring input and growth plans for junior engineers.",
+            "Served as de facto architect for all company software, internal and external, owning infrastructure decisions (Azure contracts and configuration), a company-wide security overhaul, and API designs for direct customer access to processed data.",
+            "Worked directly with the product team to design new features and processes that improved the user's experience overall with specific examples of API structures for direct data access and UX advanced map/data filtering systems.",
+            "Guided the development and growth of team members at all experience levels. This included setting juniors in their roles with growth plans and training them to attain their goals, leading training initiatives to keep the dev team sharp, and explaining the pros and cons of technical challenges to non-technical leaders."
+          ]
+        },
+        {
+          "title": "Senior Software Engineer – Internal App Lead",
+          "dates": "2019 – 2022",
+          "bullets": [
+            "Designed and shipped 3 Blazor/SQL internal apps that took multiple raw data streams through to cleaned, standardized models and cut manual collection work.",
+            "Maintained the internal applications as well as the staff and daily usage to ensure an uninterrupted flow of data.",
+            "Gathered requirements with business teams and kept timelines and blockers visible through delivery.",
+            "Owned the supporting databases — normalization, indexing, constraints, backups — so daily operations were not blocked by bad or missing data."
+          ]
+        },
+        {
+          "title": "Software Engineer – Business Support",
+          "dates": "2016 – 2019",
+          "bullets": [
+            "Supported the company's main software product through feature additions, process improvements, and bug fixes. This was a JavaScript front end with a REST service supporting access to a SQL Server.",
+            "Analyzed raw data and business rules to implement software solutions for internal business processes focused on data processing and data quality."
+          ]
+        },
+        {
+          "title": "Software Engineer – Product and Research",
+          "dates": "2014 – 2016",
+          "bullets": [
+            "Explored 3 to 5 early-stage business ideas during the company's startup phase, working with subject-matter experts to gather, organize, and analyze data.",
+            "Collaborated with the founding team to build the first version of the company's main product, contributing to design discussions and feature development.",
+            "Refactored the main product onto a new technology stack as the product matured."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Adeptive Software",
+      "dates": "2013",
+      "roles": [
+        {
+          "title": "Software Developer",
+          "bullets": [
+            "Resolved bug tickets for the company's main software product.",
+            "Provided technical support by answering customer support calls."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "BenTek",
+      "dates": "2009 – 2013",
+      "roles": [
+        {
+          "title": "Junior Software Developer",
+          "bullets": [
+            "Created stored procedures, functions, triggers, and views to support application development.",
+            "Developed complex SQL queries to extract, analyze, and manipulate data across multiple databases.",
+            "Wrote scripts to gather data from external sources."
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Science (B.S.): Computer Science",
+      "school": "Regis University, Denver, CO",
+      "date": "May 2009"
+    }
+  ]
+}

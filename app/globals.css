@@ -1,2 +1,8 @@
 @import "tailwindcss";
 @import "@parkerburgess/wandering-parker-ui/theme.css";
+
+/* Always reserve the scrollbar's width so centered content doesn't shift
+   sideways when moving between pages that do and don't scroll. */
+html {
+  scrollbar-gutter: stable;
+}

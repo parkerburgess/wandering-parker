@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import HeaderUserMenu from './HeaderUserMenu'
+import SiteNav from './SiteNav'
 import WanderingParkerWordmark from './project-art/WanderingParkerWordmark'
 
 interface HeaderProps {
@@ -30,6 +31,8 @@ export default function Header({ userName }: HeaderProps) {
           {userName && <HeaderUserMenu userName={userName} />}
         </div>
       </div>
+      {/* Signed-out visitors only see login/register, so nothing to navigate. */}
+      {userName && <SiteNav />}
     </header>
   )
 }
