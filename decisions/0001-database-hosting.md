@@ -126,7 +126,12 @@ resolves both of the problems that triggered this decision.
 
 **Follow-up**
 
-- Remove the serverless warm-up/retry code once the tier switch is live.
+- ~~Remove the serverless warm-up/retry code once the tier switch is live.~~
+  Done 2026-10-31 (wp-server 0.2.3, wp-ui 1.3.0). The retry was **slimmed, not
+  deleted**: 3 attempts over ~1.5s instead of 8 over ~4 minutes. Provisioned
+  Azure SQL still has brief transient faults (failovers, maintenance;
+  errors 40613/40197/40501) that Microsoft recommends retrying on every tier.
+  The "database is waking up" UI message was removed.
 - Monitor DTU utilization so the next tier step (S1/S2) is a deliberate choice,
   not a surprise.
 
