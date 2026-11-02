@@ -62,6 +62,8 @@ export default function LoginForm({ returnUrl }: Props) {
   const formCls = 'space-y-4'
   const errorTextCls = 'text-sm text-danger-700'
   const submitBtnCls = 'w-full'
+  const forgotPromptCls = 'mt-4 text-center text-sm'
+  const forgotLinkCls = 'text-primary-600 hover:underline'
   const registerPromptCls = 'mt-6 text-center text-sm text-neutral-500'
   const registerLinkCls = 'text-primary-600 hover:underline'
   const guestBoxCls =
@@ -96,6 +98,11 @@ export default function LoginForm({ returnUrl }: Props) {
           </Button>
           <SlowRequestNotice message={slowMessage} />
         </form>
+        <p className={forgotPromptCls}>
+          <Link href="/forgot-password" className={forgotLinkCls}>
+            Forgot your password?
+          </Link>
+        </p>
         <p className={registerPromptCls}>
           Don&apos;t have an account?{' '}
           <Link href="/register" className={registerLinkCls}>

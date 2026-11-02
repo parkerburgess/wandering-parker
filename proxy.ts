@@ -35,6 +35,6 @@ export async function proxy(request: NextRequest) {
 // without the visitor's cookie, so a redirect here breaks every <Image>.
 export const config = {
   matcher: [
-    '/((?!login|register|_next/static|_next/image|favicon.ico|api/auth|.*\\.(?:jpg|jpeg|png|gif|svg|webp)$).*)',
+    '/((?!login|register|forgot-password|reset-password|_next/static|_next/image|favicon.ico|api/auth|.*\\.(?:jpg|jpeg|png|gif|svg|webp)$).*)',
   ],
 }
