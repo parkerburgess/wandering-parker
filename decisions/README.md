@@ -13,8 +13,9 @@ rather than to details that age (prices, versions, dashboards).
 ## Records
 
 | #    | Decision                        | Status   | Date       |
-|------|-------------------------------------------------where------|----------|------------|
+|------|---------------------------------|----------|------------|
 | 0001 | [Database hosting platform](0001-database-hosting.md) | Accepted | 2026-10-31 |
+| 0002 | [Authentication hardening](0002-auth-hardening.md) | Accepted | 2026-11-02 |
 
 ## Adding a record
 
