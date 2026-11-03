@@ -3,6 +3,11 @@ import resumeData from '../data/resume.json'
 // Hand-transcribed from public/Resume/Parker_Burgess_Resume.docx; update
 // resume.json whenever the docx changes.
 
+export interface ProfileLink {
+  label: string
+  url: string
+}
+
 export interface SkillGroup {
   category: string
   items: string
@@ -33,6 +38,7 @@ export interface Resume {
   name: string
   email: string
   location: string
+  links: ProfileLink[]
   summary: string[]
   skills: SkillGroup[]
   experience: ExperienceEntry[]

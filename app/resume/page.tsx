@@ -57,7 +57,8 @@ export default function ResumePage() {
   const nameCls = 'text-3xl font-bold text-neutral-800 mb-2'
   const contactCls = 'text-neutral-500'
   const emailLinkCls = 'text-primary-600 hover:underline cursor-pointer'
-  const downloadLinkCls = 'text-primary-600 hover:underline cursor-pointer'
+  const profileLinkCls = 'text-primary-600 hover:underline cursor-pointer'
+  const downloadLinkCls ='text-primary-600 hover:underline cursor-pointer'
   const sectionCls = 'grid gap-4'
   const sectionHeadingCls =
     'text-sm font-semibold uppercase tracking-wider text-neutral-500 ' +
@@ -85,6 +86,19 @@ export default function ResumePage() {
             </a>
             {'  |  '}
             {resume.location}
+            {resume.links.map((profileLink) => (
+              <span key={profileLink.url}>
+                {'  |  '}
+                <a
+                  href={profileLink.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={profileLinkCls}
+                >
+                  {profileLink.label}
+                </a>
+              </span>
+            ))}
           </p>
         </div>
         <a href={resumePdfPath} download className={downloadLinkCls}>
