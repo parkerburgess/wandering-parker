@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   Button,
@@ -27,7 +26,6 @@ function isSafeReturnUrl(url: string | undefined): url is string {
 }
 
 export default function LoginForm({ returnUrl, verified }: Props) {
-  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -66,8 +64,10 @@ export default function LoginForm({ returnUrl, verified }: Props) {
     try {
       const res = await fetch('/api/auth/guest', { method: 'POST' })
       if (res.ok) {
-        router.push('/')
-        router.refresh()
+        // Full navigation, not router.push: the client router may still hold
+        // a prefetch of '/' from before sign-in that redirects back here.
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+        window.location.href = '/'
       } else {
         setError('Guest access is unavailable right now.')
         setLoading(false)
