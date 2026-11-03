@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   Button,
@@ -12,6 +13,7 @@ import {
 
 interface Props {
   returnUrl?: string
+  verified?: boolean
 }
 
 function isSafeReturnUrl(url: string | undefined): url is string {
@@ -24,7 +26,8 @@ function isSafeReturnUrl(url: string | undefined): url is string {
   }
 }
 
-export default function LoginForm({ returnUrl }: Props) {
+export default function LoginForm({ returnUrl, verified }: Props) {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -46,7 +49,27 @@ export default function LoginForm({ returnUrl }: Props) {
       if (res.ok) {
         window.location.href = isSafeReturnUrl(returnUrl) ? returnUrl : '/'
       } else {
-        setError('Invalid email or password.')
+        const data = await res.json().catch(() => null)
+        setError(data?.error ?? 'Invalid email or password.')
+        setLoading(false)
+      }
+    } catch {
+      setError('Could not reach the server. Please try again.')
+      setLoading(false)
+    }
+  }
+
+  async function handleGuest() {
+    setLoading(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/auth/guest', { method: 'POST' })
+      if (res.ok) {
+        router.push('/')
+        router.refresh()
+      } else {
+        setError('Guest access is unavailable right now.')
         setLoading(false)
       }
     } catch {
@@ -61,13 +84,14 @@ export default function LoginForm({ returnUrl }: Props) {
   const titleCls = 'text-2xl font-bold text-neutral-800 mb-8 text-center'
   const formCls = 'space-y-4'
   const errorTextCls = 'text-sm text-danger-700'
+  const verifiedNoticeCls = 'mb-6 text-sm text-center text-primary-700'
   const submitBtnCls = 'w-full'
   const forgotPromptCls = 'mt-4 text-center text-sm'
   const forgotLinkCls = 'text-primary-600 hover:underline'
   const registerPromptCls = 'mt-6 text-center text-sm text-neutral-500'
   const registerLinkCls = 'text-primary-600 hover:underline'
-  const guestBoxCls =
-    'mt-8 p-3 rounded-lg border border-neutral-200 bg-card text-xs text-neutral-500 font-mono'
+  const guestSectionCls = 'mt-8 pt-6 border-t border-neutral-200 grid gap-3'
+  const guestHintCls = 'text-sm text-center text-neutral-500'
   // #endregion
 
   return (
@@ -76,6 +100,11 @@ export default function LoginForm({ returnUrl }: Props) {
         <h1 className={titleCls}>
           Sign in
         </h1>
+        {verified && (
+          <p className={verifiedNoticeCls}>
+            Your email is verified — please sign in.
+          </p>
+        )}
         <form onSubmit={handleSubmit} className={formCls}>
           <Input
             id="email"
@@ -109,9 +138,19 @@ export default function LoginForm({ returnUrl }: Props) {
             Create one
           </Link>
         </p>
-        <div className={guestBoxCls}>
-          <p>guest access with username/password:</p>
-          <p>guest@gmail.com/guest</p>
+        <div className={guestSectionCls}>
+          <p className={guestHintCls}>
+            Just exploring? Browse the demo apps without an account.
+          </p>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleGuest}
+            disabled={loading}
+            className={submitBtnCls}
+          >
+            View as guest (read-only)
+          </Button>
         </div>
       </div>
     </div>
