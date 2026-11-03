@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { unauthorized, forbidden, serverError } from '@/lib/apiResponses'
 
 export async function POST(request: NextRequest) {
   const { email, password } = await request.json()
@@ -14,7 +15,10 @@ export async function POST(request: NextRequest) {
   })
 
   if (!signInRes.ok) {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+    if (signInRes.status === 403) {
+      return forbidden('Please verify your email before signing in — we just sent a fresh link.')
+    }
+    return unauthorized('Invalid email or password.')
   }
 
   // Extract the session cookie returned by the auth service
@@ -29,7 +33,7 @@ export async function POST(request: NextRequest) {
   })
 
   if (!tokenRes.ok) {
-    return NextResponse.json({ error: 'Failed to get token' }, { status: 500 })
+    return serverError('Sign-in failed. Please try again.')
   }
 
   const { token } = await tokenRes.json()
