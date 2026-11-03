@@ -32,7 +32,11 @@ export default async function HomePage() {
   // #region Tailwind utility consts
   // Below lg the profile drops under the projects at full width.
   const pageCls = 'grid grid-cols-1 lg:grid-cols-[1fr_18rem] items-start gap-8'
-  const headingWrapCls = 'mb-10'
+  // Matches ProjectCard's frame at half its h-64 height; no hover lift,
+  // since the heading isn't a link.
+  const headingWrapCls =
+    'grid content-center h-32 mb-10 p-5 rounded-xl ' +
+    'border border-neutral-400 bg-card'
   const headingCls = 'text-3xl font-bold text-neutral-800 mb-2'
   const subheadingCls = 'text-neutral-500'
   const emptyStateCls = 'text-center py-24 text-neutral-500'
@@ -45,9 +49,11 @@ export default async function HomePage() {
     <div className={pageCls}>
       <div>
         <div className={headingWrapCls}>
-          <h1 className={headingCls}>Projects</h1>
+          <h1 className={headingCls}>Projects and Purpose</h1>
           <p className={subheadingCls}>
-            A collection of interactive experiments and tools.
+            This is a set of projects that I'm using to explore concepts and tools (Claude) as well as to keep my skills sharp.  
+            These are close to production ready projects.  The code is available on my GitHub (link in my resume) and there 
+            are, or will be soon, detail pages that include diagrams and architectual details.
           </p>
         </div>
 

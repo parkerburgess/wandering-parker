@@ -1,6 +1,58 @@
 @import "tailwindcss";
 @import "@parkerburgess/wandering-parker-ui/theme.css";
 
+/* Toned-down palettes. Overrides only the five base colors from wp-ui's
+   theme.css (original hex kept inline); every derived stop, fill and
+   dark-mode value is built from these, so they all follow.
+
+   Only chroma is reduced — lightness and hue stay put — so wp-ui's
+   contrast guarantees (white text on -700 fills clearing WCAG AA) still
+   hold. Brand colors drop to 65% chroma; semantic colors only to 80% so
+   red/green/amber still read as error/success/warning. */
+:root,
+[data-palette="blue"] {
+  --primary: oklch(from #2563EB l calc(c * 0.65) h);
+  --neutral: oklch(from #64748B l calc(c * 0.65) h);
+  --success: oklch(from #16A34A l calc(c * 0.8) h);
+  --danger: oklch(from #DC2626 l calc(c * 0.8) h);
+  --warning: oklch(from #D97706 l calc(c * 0.8) h);
+}
+
+[data-palette="orange"] {
+  --primary: oklch(from #FA4616 l calc(c * 0.65) h);
+  --neutral: oklch(from #001489 l calc(c * 0.65) h);
+  --success: oklch(from #15803D l calc(c * 0.8) h);
+  --danger: oklch(from #DC2626 l calc(c * 0.8) h);
+  --warning: oklch(from #ca8a04 l calc(c * 0.8) h);
+}
+
+/* Dark Gray + Slate. Reuses wp-ui's indigo slot because the picker's list
+   is generated inside wp-ui, so the picker still labels it "Indigo + Zinc".
+   Both colors are already low-chroma, so no toning is applied. */
+[data-palette="indigo"] {
+  --primary: #3F3F46;
+  --neutral: #64748B;
+  --success: oklch(from #059669 l calc(c * 0.8) h);
+  --danger: oklch(from #E11D48 l calc(c * 0.8) h);
+  --warning: oklch(from #D97706 l calc(c * 0.8) h);
+}
+
+/* A dark gray primary vanishes against dark-mode surfaces, so lift it:
+   fills (-700) land near #52525B, which still carries white text at AA,
+   and -600 (link/accent text) goes lighter still to read on the cards. */
+html.dark[data-palette="indigo"] {
+  --primary: #71717A;
+  --primary-600: #A1A1AA;
+}
+
+[data-palette="emerald"] {
+  --primary: oklch(from #059669 l calc(c * 0.65) h);
+  --neutral: oklch(from #78716C l calc(c * 0.65) h);
+  --success: oklch(from #15803D l calc(c * 0.8) h);
+  --danger: oklch(from #DC2626 l calc(c * 0.8) h);
+  --warning: oklch(from #B45309 l calc(c * 0.8) h);
+}
+
 /* Always reserve the scrollbar's width so centered content doesn't shift
    sideways when moving between pages that do and don't scroll. */
 html {
