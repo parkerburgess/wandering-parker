@@ -16,6 +16,7 @@ rather than to details that age (prices, versions, dashboards).
 |------|---------------------------------|----------|------------|
 | 0001 | [Database hosting platform](0001-database-hosting.md) | Accepted | 2026-10-31 |
 | 0002 | [Authentication hardening](0002-auth-hardening.md) | Accepted | 2026-11-02 |
+| 0003 | [Contact form endpoint](0003-contact-form-endpoint.md) | Proposed | 2026-11-03 |
 
 ## Adding a record
 
