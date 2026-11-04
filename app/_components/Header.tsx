@@ -1,7 +1,12 @@
 import Link from 'next/link'
+import { SiteNav, DynamicHeader } from '@parkerburgess/wandering-parker-ui'
+import type { SiteNavItem } from '@parkerburgess/wandering-parker-ui'
 import HeaderUserMenu from './HeaderUserMenu'
-import SiteNav from './SiteNav'
-import WanderingParkerWordmark from './project-art/WanderingParkerWordmark'
+
+const navItems: SiteNavItem[] = [
+  { label: 'Projects', href: '/' },
+  { label: 'Resume', href: '/resume' },
+]
 
 interface HeaderProps {
   userName?: string
@@ -9,15 +14,15 @@ interface HeaderProps {
 
 export default function Header({ userName }: HeaderProps) {
   // #region Tailwind utility consts
-  // The wordmark is transparent, so bg-primary-600 (the theme's --primary)
-  // shows through and follows the palette.
-  const headerCls = 'bg-primary-600 sticky top-0 z-50'
-  // Equal 1fr side columns keep the banner centered whether or not the
-  // user menu is present.
+  // Background hardcoded to lightslategray (fixed, does not follow the theme).
+  const headerCls = 'bg-[lightslategray] sticky top-0 z-50'
+  // @container makes this the sizing reference for the banner's cqi units.
   const innerCls =
-    'max-w-6xl mx-auto px-4 h-20 grid grid-cols-[1fr_auto_1fr] items-center'
-  const brandCls = 'col-start-2 block w-56 sm:w-72 cursor-pointer'
-  const wordmarkCls = 'block w-full h-auto'
+    '@container max-w-6xl mx-auto px-4 py-4 grid grid-cols-[1fr_auto_1fr] items-center'
+  const brandCls = 'col-start-2 block cursor-pointer'
+  // Font-size scales with the header width (cqi) so the 15 tiles always fit
+  // on one line, down to a floor on phones and capped so desktop is unchanged.
+  const wordmarkCls = 'text-[clamp(0.5rem,3.1cqi,2rem)]'
   const menuSlotCls = 'justify-self-end'
   // #endregion
 
@@ -25,14 +30,14 @@ export default function Header({ userName }: HeaderProps) {
     <header className={headerCls}>
       <div className={innerCls}>
         <Link href="/" className={brandCls}>
-          <WanderingParkerWordmark className={wordmarkCls} />
+          <DynamicHeader text="Wandering Parker" className={wordmarkCls} />
         </Link>
         <div className={menuSlotCls}>
           {userName && <HeaderUserMenu userName={userName} />}
         </div>
       </div>
       {/* Signed-out visitors only see login/register, so nothing to navigate. */}
-      {userName && <SiteNav />}
+      {userName && <SiteNav items={navItems} />}
     </header>
   )
 }
