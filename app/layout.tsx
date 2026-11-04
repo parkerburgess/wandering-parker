@@ -1,9 +1,14 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import { ThemeProvider } from '@parkerburgess/wandering-parker-ui'
+import { ThemeProvider, Header } from '@parkerburgess/wandering-parker-ui'
+import type { SiteNavItem } from '@parkerburgess/wandering-parker-ui'
 import './globals.css'
-import Header from './_components/Header'
 import { getVerifiedAuthName } from '@/lib/auth'
+
+const navItems: SiteNavItem[] = [
+  { label: 'Projects', href: '/' },
+  { label: 'Resume', href: '/resume' },
+]
 
 export const metadata: Metadata = {
   title: 'WanderingParker',
@@ -28,7 +33,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={bodyCls}>
         <ThemeProvider>
-          <Header userName={userName} />
+          <Header userName={userName} brandText="Wandering Parker" navItems={navItems} />
           <main className={mainCls}>{children}</main>
         </ThemeProvider>
       </body>
