@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { ThemeProvider, Header } from '@parkerburgess/wandering-parker-ui'
-import type { SiteNavItem } from '@parkerburgess/wandering-parker-ui'
+import type {
+  SiteNavItem,
+  ContactConfig,
+} from '@parkerburgess/wandering-parker-ui'
 import './globals.css'
-import { getVerifiedAuthName } from '@/lib/auth'
+import { getVerifiedAuthUser } from '@/lib/auth'
 
 const navItems: SiteNavItem[] = [
   { label: 'Projects', href: '/' },
@@ -22,7 +25,13 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies()
   const token = cookieStore.get('auth_token')?.value
-  const userName = await getVerifiedAuthName(token)
+  const authUser = await getVerifiedAuthUser(token)
+  const contact: ContactConfig = {
+    endpoint: `${process.env.AUTH_SERVICE_URL}/api/contact`,
+    sourceApp: 'Wandering Parker',
+    turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+    userEmail: authUser?.email,
+  }
 
   // #region Tailwind utility consts
   const bodyCls = 'min-h-screen'
@@ -33,7 +42,12 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={bodyCls}>
         <ThemeProvider>
-          <Header userName={userName} brandText="Wandering Parker" navItems={navItems} />
+          <Header
+            userName={authUser?.name}
+            brandText="Wandering Parker"
+            navItems={navItems}
+            contact={contact}
+          />
           <main className={mainCls}>{children}</main>
         </ThemeProvider>
       </body>

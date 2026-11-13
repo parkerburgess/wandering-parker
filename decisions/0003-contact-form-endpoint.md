@@ -1,6 +1,6 @@
 # 0003 — Contact Form: Where the Send Endpoint Lives
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-11-13)
 - **Date:** 2026-11-03
 - **Deciders:** Parker Burgess
 
@@ -15,8 +15,10 @@ _To be written once the decision is made._
 
 Issue #41 extracts `SiteNav` into the shared `wp-ui` package so every app gets the same
 navigation. Every app's nav should also have a **Contact Me** item that opens a modal with
-name and email (both required), a short note, a **Cloudflare Turnstile** check, and
-Send / Cancel buttons. A submission emails Parker at a fixed address through **Resend**
+the visitor's email, a short note, a **Cloudflare Turnstile** check, and Send / Cancel
+buttons. *(Revised 2026-11-13: no name field. A signed-in user's email is pre-filled and
+read-only; the shared Guest account must type one in.)* The subject is always
+`Wandering Parker Contact`. A submission emails Parker at a fixed address through **Resend**
 (the provider chosen in [0002](0002-auth-hardening.md)), sent from
 `contact@wanderingparker.com` with `replyTo` set to the visitor so replies go straight
 back to them.
@@ -129,6 +131,8 @@ C and D later is a configuration change in each app, not a rewrite.
   non-production falls back to `onboarding@resend.dev`, which only delivers to the
   Resend account owner — and since that is Parker's own address, this works for testing.
 - **Recipient:** `CONTACT_TO_EMAIL` env var rather than a constant in source.
+- **Body:** plain text only, so nothing the visitor typed is ever rendered as HTML. It
+  starts with `Sent from: <app>` and the visitor's address.
 - **Turnstile hostnames:** the Cloudflare widget must list every app's hostname (or the
   `wanderingparker.com` domain), or it fails on apps other than the hub.
 - **Turnstile in local dev:** the check is skipped when no secret is configured, matching
@@ -136,11 +140,47 @@ C and D later is a configuration change in each app, not a rewrite.
 
 ## Decision
 
-_Pending._
+**Option A — `POST /api/contact` on the auth service.** The browser posts straight to it
+cross-origin from the `wp-ui` `ContactMe` modal.
+
+The reasoning, in order of weight:
+
+1. **Nothing new to configure or deploy.** The auth service already holds the Resend and
+   Turnstile secrets and the CORS list for every app origin.
+2. **The swap stays cheap.** Each app's layout passes the endpoint URL to `Header` in a
+   `contact` prop, so moving to C or D later is a config change, not a rewrite.
+
+**Which email to use is decided in the form, not on the server.** Each layout passes the
+signed-in user's email (`getUserEmail()` in wp-server, `getVerifiedAuthUser()` in the
+hub), which is `undefined` for Guest. The modal pre-fills it read-only, or requires one
+when it's missing. The endpoint doesn't read the auth cookie: that cookie is scoped to
+`.wanderingparker.com` and would only reach the auth service if it were on that domain,
+and with `DISABLE_AUTH` in dev there's no cookie at all. The trade-off: someone editing the
+request can put any address in the reply-to. That only changes where Parker's reply goes,
+and Turnstile still applies.
 
 ## Consequences
 
-_To be filled in once an option is chosen._
+**Positive**
+
+- One endpoint, one set of secrets, no per-app route files.
+- Every app gets the form through `Header`'s `contact` prop.
+- The hub's Turnstile widget moved into `wp-ui`, so every app shares one implementation.
+
+**Trade-offs accepted**
+
+- A non-auth feature now lives in the auth service.
+- `ALLOWED_ORIGINS` on the auth service must list every app origin, in dev too
+  (`3000`, `3003`, `3004`, `3006`).
+- Each app needs `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (public), and each app's hostname has to
+  be added to the Turnstile widget in Cloudflare.
+- No rate limit yet. Turnstile is the only spam control.
+
+**New environment variables**
+
+- Auth service: `CONTACT_TO_EMAIL` (the recipient), plus an optional `CONTACT_EMAIL_FROM`
+  override for the sender.
+- Every app: `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. The hub already had it.
 
 ## What Would Change This
 

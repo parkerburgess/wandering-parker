@@ -12,15 +12,27 @@ export function isAuthDisabled(): boolean {
   return process.env.DISABLE_AUTH === 'true' && process.env.NODE_ENV !== 'production'
 }
 
-export async function getVerifiedAuthName(
+export interface VerifiedAuthUser {
+  name: string
+  /** Undefined for the shared Guest account, so forms ask for an address. */
+  email?: string
+}
+
+// Verifies the signature itself rather than trusting proxy.ts: the layout
+// also renders on the public pages the proxy skips (login, register, ...).
+export async function getVerifiedAuthUser(
   token: string | undefined
-): Promise<string | undefined> {
-  if (isAuthDisabled()) return DEV_USER_NAME
+): Promise<VerifiedAuthUser | undefined> {
+  if (isAuthDisabled()) return { name: DEV_USER_NAME }
   if (!token) return undefined
 
   try {
     const { payload } = await jwtVerify(token, authJwks)
-    return (payload.name as string) || (payload.email as string) || undefined
+    const email = payload.email as string | undefined
+    const name = (payload.name as string) || email
+    if (!name) return undefined
+    const isGuest = email === process.env.GUEST_EMAIL
+    return { name, email: isGuest ? undefined : email }
   } catch {
     return undefined
   }

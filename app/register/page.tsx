@@ -2,8 +2,12 @@
 
 import { useCallback, useState } from 'react'
 import Link from 'next/link'
-import { Button, Input, PasswordInput } from '@parkerburgess/wandering-parker-ui'
-import Turnstile from '@/app/_components/Turnstile'
+import {
+  Button,
+  Input,
+  PasswordInput,
+  Turnstile,
+} from '@parkerburgess/wandering-parker-ui'
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -109,7 +113,13 @@ export default function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {captchaRequired && <Turnstile onToken={handleToken} resetKey={resetKey} />}
+          {captchaRequired && (
+            <Turnstile
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+              onToken={handleToken}
+              resetKey={resetKey}
+            />
+          )}
           {error && <p className={errorTextCls}>{error}</p>}
           <Button
             type="submit"
