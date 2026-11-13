@@ -50,7 +50,7 @@ export async function POST() {
     sameSite: 'lax',
     path: '/',
     domain: process.env.NODE_ENV === 'production' ? '.wanderingparker.com' : undefined,
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24, // 1 day, matching the JWT expiry
   })
 
   return response
