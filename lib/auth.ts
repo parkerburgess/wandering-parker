@@ -1,8 +1,19 @@
 import { createRemoteJWKSet, jwtVerify } from 'jose'
+import type { JWTPayload } from 'jose'
+import { getAuthServiceUrl } from './authService'
 
-export const authJwks = createRemoteJWKSet(
-  new URL(`${process.env.AUTH_SERVICE_URL}/api/auth/jwks`)
-)
+type AuthJwks = ReturnType<typeof createRemoteJWKSet>
+
+let authJwks: AuthJwks | undefined
+
+// Built on first use, not at import: a missing AUTH_SERVICE_URL then fails
+// with a clear error when a token is actually checked, instead of crashing
+// every page on load (including with DISABLE_AUTH on). The key set is cached
+// for the life of the server instance.
+export function getAuthJwks(): AuthJwks {
+  authJwks ??= createRemoteJWKSet(new URL(getAuthServiceUrl('/api/auth/jwks')))
+  return authJwks
+}
 
 const DEV_USER_NAME = 'Dev User (Parker)'
 
@@ -18,6 +29,12 @@ export interface VerifiedAuthUser {
   email?: string
 }
 
+// JWT claims are untyped; anything that isn't a non-empty string is ignored.
+function readStringClaim(payload: JWTPayload, claim: string): string | undefined {
+  const value = payload[claim]
+  return typeof value === 'string' && value.length > 0 ? value : undefined
+}
+
 // Verifies the signature itself rather than trusting proxy.ts: the layout
 // also renders on the public pages the proxy skips (login, register, ...).
 export async function getVerifiedAuthUser(
@@ -27,9 +44,9 @@ export async function getVerifiedAuthUser(
   if (!token) return undefined
 
   try {
-    const { payload } = await jwtVerify(token, authJwks)
-    const email = payload.email as string | undefined
-    const name = (payload.name as string) || email
+    const { payload } = await jwtVerify(token, getAuthJwks())
+    const email = readStringClaim(payload, 'email')
+    const name = readStringClaim(payload, 'name') ?? email
     if (!name) return undefined
     const isGuest = email === process.env.GUEST_EMAIL
     return { name, email: isGuest ? undefined : email }

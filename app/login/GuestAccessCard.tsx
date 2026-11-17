@@ -8,7 +8,12 @@ import {
   useSlowRequestNotice,
 } from '@parkerburgess/wandering-parker-ui'
 
-export default function GuestAccessCard() {
+interface Props {
+  // Already checked on the server by getSafeReturnUrl (lib/returnUrl.ts).
+  returnUrl?: string
+}
+
+export default function GuestAccessCard({ returnUrl }: Props) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const slowMessage = useSlowRequestNotice(loading)
@@ -22,10 +27,11 @@ export default function GuestAccessCard() {
       if (res.ok) {
         // Full navigation, not router.push: the client router may still hold
         // a prefetch of '/' from before sign-in that redirects back here.
-        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-        window.location.href = '/'
+        window.location.href = returnUrl ?? '/'
       } else {
-        setError('Guest access is unavailable right now.')
+        // The route words its own message (busy, unavailable, ...).
+        const data = await res.json().catch(() => null)
+        setError(data?.error ?? 'Guest access is unavailable right now.')
         setLoading(false)
       }
     } catch {

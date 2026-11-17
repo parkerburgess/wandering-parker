@@ -58,7 +58,7 @@ export default function ResumePage() {
   const contactCls = 'text-neutral-500'
   const emailLinkCls = 'text-primary-600 hover:underline cursor-pointer'
   const profileLinkCls = 'text-primary-600 hover:underline cursor-pointer'
-  const downloadLinkCls ='text-primary-600 hover:underline cursor-pointer'
+  const downloadLinkCls = 'text-primary-600 hover:underline cursor-pointer'
   const sectionCls = 'grid gap-4'
   const sectionHeadingCls =
     'text-sm font-semibold uppercase tracking-wider text-neutral-500 ' +

@@ -95,6 +95,12 @@ The reasoning, in order of weight:
 4. **Centralized read-only enforcement is safer than per-route.** The guard lives where auth
    is already verified (`proxy.ts` via wp-server), so new write paths are covered by default.
 
+> **Exception — the hub (added 2026-11-17, review #36 C5):** the hub's `proxy.ts` doesn't
+> call `enforceReadOnly`. Its only write routes are under `/api/auth`, which the proxy
+> skips because signed-out visitors need them, and the contact form posts to the auth
+> service directly. A guest has nothing to write to on the hub, so the guard would cover
+> no routes. Revisit if the hub gains a write route a signed-in user can reach.
+
 ## Consequences
 
 **Positive**

@@ -15,7 +15,7 @@ export default function LoginForm({ returnUrl, verified }: Props) {
   return (
     <div className={pageCls}>
       <div className={stackCls}>
-        <GuestAccessCard />
+        <GuestAccessCard returnUrl={returnUrl} />
         <SignInCard returnUrl={returnUrl} verified={verified} />
       </div>
     </div>

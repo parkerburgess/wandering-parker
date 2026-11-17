@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { badRequest, serverError } from '@/lib/apiResponses'
+import { badRequest, serviceUnavailable } from '@/lib/apiResponses'
+import { getAppUrl, getAuthServiceUrl } from '@/lib/authService'
+import { readJsonObject, readStringField } from '@/lib/requestBody'
 
 export async function POST(request: NextRequest) {
-  const { email } = await request.json()
+  const body = await readJsonObject(request)
+  if (!body) {
+    return badRequest('Invalid request.')
+  }
+
+  const email = readStringField(body, 'email')
   if (!email) {
     return badRequest('Email is required.')
   }
 
-  const authUrl = process.env.AUTH_SERVICE_URL!
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+  const appUrl = getAppUrl()
 
   try {
-    await fetch(`${authUrl}/api/auth/request-password-reset`, {
+    await fetch(getAuthServiceUrl('/api/auth/request-password-reset'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +26,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ email, redirectTo: `${appUrl}/reset-password` }),
     })
   } catch {
-    return serverError('Could not reach the authentication service.')
+    return serviceUnavailable('Could not reach the authentication service.')
   }
 
   // Always report success so the response never reveals whether an email is

@@ -27,8 +27,12 @@ function parseSkills(skills: string): string[] {
     .filter((skill) => skill.length > 0)
 }
 
+// A typed assignment, not a cast: if projects.json stops matching
+// ProjectData, this line fails to compile.
+const projectRecords: ProjectData[] = projectsData
+
 export function getProjects(): Project[] {
-  return (projectsData as ProjectData[]).map((p) => ({
+  return projectRecords.map((p) => ({
     name: p.name,
     description: p.description,
     skills: parseSkills(p.skills),

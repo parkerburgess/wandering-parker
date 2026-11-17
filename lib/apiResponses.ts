@@ -17,6 +17,14 @@ export function forbidden(error: string) {
   return NextResponse.json({ error }, { status: 403 })
 }
 
+export function tooManyRequests(error: string) {
+  return NextResponse.json({ error }, { status: 429 })
+}
+
+export function serviceUnavailable(error: string) {
+  return NextResponse.json({ error }, { status: 503 })
+}
+
 export function serverError(error = 'Something went wrong. Please try again.') {
   return NextResponse.json({ error }, { status: 500 })
 }

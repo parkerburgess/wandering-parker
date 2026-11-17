@@ -7,6 +7,8 @@ import type {
 } from '@parkerburgess/wandering-parker-ui'
 import './globals.css'
 import { getVerifiedAuthUser } from '@/lib/auth'
+import { readAuthToken } from '@/lib/authCookie'
+import { getAuthServiceUrl } from '@/lib/authService'
 
 const navItems: SiteNavItem[] = [
   { label: 'Projects', href: '/' },
@@ -24,10 +26,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const cookieStore = await cookies()
-  const token = cookieStore.get('auth_token')?.value
+  const token = readAuthToken(cookieStore)
   const authUser = await getVerifiedAuthUser(token)
   const contact: ContactConfig = {
-    endpoint: `${process.env.AUTH_SERVICE_URL}/api/contact`,
+    endpoint: getAuthServiceUrl('/api/contact'),
     sourceApp: 'Wandering Parker',
     turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
     userEmail: authUser?.email,

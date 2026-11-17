@@ -1,52 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { unauthorized, forbidden, serverError } from '@/lib/apiResponses'
+import {
+  badRequest,
+  forbidden,
+  serviceUnavailable,
+  tooManyRequests,
+  unauthorized,
+} from '@/lib/apiResponses'
+import { setAuthCookie } from '@/lib/authCookie'
+import { readJsonObject, readStringField } from '@/lib/requestBody'
+import { signInWithEmail } from '@/lib/signIn'
 
 export async function POST(request: NextRequest) {
-  const { email, password } = await request.json()
-  const authUrl = process.env.AUTH_SERVICE_URL!
+  const body = await readJsonObject(request)
+  if (!body) {
+    return badRequest('Invalid request.')
+  }
 
-  const signInRes = await fetch(`${authUrl}/api/auth/sign-in/email`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Origin': process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
-    },
-    body: JSON.stringify({ email, password }),
-  })
+  const email = readStringField(body, 'email')
+  const password = readStringField(body, 'password')
+  if (!email || !password) {
+    return badRequest('Email and password are required.')
+  }
 
-  if (!signInRes.ok) {
-    if (signInRes.status === 403) {
-      return forbidden('Please verify your email before signing in — we just sent a fresh link.')
+  const result = await signInWithEmail(email, password)
+
+  switch (result.kind) {
+    case 'success': {
+      const response = NextResponse.json({ ok: true })
+      setAuthCookie(response, result.token)
+      return response
     }
-    return unauthorized('Invalid email or password.')
+    case 'email-not-verified':
+      return forbidden('Please verify your email before signing in — we just sent a fresh link.')
+    case 'rate-limited':
+      return tooManyRequests('Too many sign-in attempts. Please wait a minute and try again.')
+    case 'unavailable':
+      return serviceUnavailable('Sign-in is temporarily unavailable. Please try again shortly.')
+    case 'invalid-credentials':
+      return unauthorized('Invalid email or password.')
   }
-
-  // Extract the session cookie returned by the auth service
-  const setCookieHeader = signInRes.headers.get('set-cookie') ?? ''
-  const sessionCookiePart = setCookieHeader.split(';')[0]
-
-  const tokenRes = await fetch(`${authUrl}/api/auth/token`, {
-    headers: {
-      'Cookie': sessionCookiePart,
-      'Origin': process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
-    },
-  })
-
-  if (!tokenRes.ok) {
-    return serverError('Sign-in failed. Please try again.')
-  }
-
-  const { token } = await tokenRes.json()
-
-  const response = NextResponse.json({ ok: true })
-  response.cookies.set('auth_token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    domain: process.env.NODE_ENV === 'production' ? '.wanderingparker.com' : undefined,
-    maxAge: 60 * 60 * 24, // 1 day, matching the JWT expiry
-  })
-
-  return response
 }
