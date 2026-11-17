@@ -12,18 +12,9 @@ import {
 } from '@parkerburgess/wandering-parker-ui'
 
 interface Props {
+  // Already checked on the server by getSafeReturnUrl (lib/returnUrl.ts).
   returnUrl?: string
   verified?: boolean
-}
-
-function isSafeReturnUrl(url: string | undefined): url is string {
-  if (!url) return false
-  if (url.startsWith('/')) return true
-  try {
-    return new URL(url).hostname === 'localhost'
-  } catch {
-    return false
-  }
 }
 
 export default function SignInCard({ returnUrl, verified }: Props) {
@@ -46,7 +37,7 @@ export default function SignInCard({ returnUrl, verified }: Props) {
       })
 
       if (res.ok) {
-        window.location.href = isSafeReturnUrl(returnUrl) ? returnUrl : '/'
+        window.location.href = returnUrl ?? '/'
       } else {
         const data = await res.json().catch(() => null)
         setError(data?.error ?? 'Invalid email or password.')
