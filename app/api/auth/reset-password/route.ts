@@ -1,27 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { badRequest, serverError } from '@/lib/apiResponses'
+import { badRequest, serviceUnavailable } from '@/lib/apiResponses'
+import { getAppUrl, getAuthServiceUrl } from '@/lib/authService'
+import { readJsonObject, readStringField } from '@/lib/requestBody'
 
 export async function POST(request: NextRequest) {
-  const { token, newPassword } = await request.json()
+  const body = await readJsonObject(request)
+  if (!body) {
+    return badRequest('Invalid request.')
+  }
+
+  const token = readStringField(body, 'token')
+  const newPassword = readStringField(body, 'newPassword')
   if (!token || !newPassword) {
     return badRequest('A reset token and new password are required.')
   }
 
-  const authUrl = process.env.AUTH_SERVICE_URL!
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
-
   let resetRes: Response
   try {
-    resetRes = await fetch(`${authUrl}/api/auth/reset-password`, {
+    resetRes = await fetch(getAuthServiceUrl('/api/auth/reset-password'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Origin': appUrl,
+        'Origin': getAppUrl(),
       },
       body: JSON.stringify({ token, newPassword }),
     })
   } catch {
-    return serverError('Could not reach the authentication service.')
+    return serviceUnavailable('Could not reach the authentication service.')
   }
 
   if (!resetRes.ok) {

@@ -1,31 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
-import { authJwks, isAuthDisabled } from '@/lib/auth'
+import { getAuthJwks, isAuthDisabled } from '@/lib/auth'
+import { clearAuthCookie, readAuthToken } from '@/lib/authCookie'
 
 export async function proxy(request: NextRequest) {
   if (isAuthDisabled()) {
     return NextResponse.next()
   }
 
-  const token = request.cookies.get('auth_token')?.value
+  const token = readAuthToken(request.cookies)
 
   if (!token) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
   try {
-    await jwtVerify(token, authJwks)
+    await jwtVerify(token, getAuthJwks())
     return NextResponse.next()
   } catch {
     const response = NextResponse.redirect(new URL('/login', request.url))
-    // Must match the domain/path the cookie was set with (see
-    // app/api/auth/login/route.ts) or this clears a different, host-only
-    // cookie and leaves the real session cookie in place.
-    response.cookies.delete({
-      name: 'auth_token',
-      path: '/',
-      domain: process.env.NODE_ENV === 'production' ? '.wanderingparker.com' : undefined,
-    })
+    clearAuthCookie(response)
     return response
   }
 }

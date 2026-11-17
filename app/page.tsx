@@ -1,17 +1,39 @@
 import { cookies } from 'next/headers'
 import { getProjects, Project } from '@/lib/getProjects'
 import { isAuthDisabled } from '@/lib/auth'
+import { readAuthToken } from '@/lib/authCookie'
+import { getAuthServiceUrl } from '@/lib/authService'
 import ProjectCard from './_components/ProjectCard'
 import ProfilePanel from './_components/ProfilePanel'
 
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === 'string')
+}
+
+// Expects { apps: string[] }; anything else counts as no apps.
+async function readApps(response: Response): Promise<string[]> {
+  const body: unknown = await response.json().catch(() => undefined)
+  if (typeof body !== 'object' || body === null || !('apps' in body)) {
+    return []
+  }
+  const { apps } = body
+  return isStringArray(apps) ? apps : []
+}
+
+// Any failure (auth service down, error status, unexpected reply) shows the
+// page's empty state instead of an error page.
 async function getAccessibleApps(token: string): Promise<string[]> {
-  const res = await fetch(`${process.env.AUTH_SERVICE_URL}/api/user/apps`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store',
-  })
-  if (!res.ok) return []
-  const data = await res.json()
-  return data.apps as string[]
+  try {
+    const res = await fetch(getAuthServiceUrl('/api/user/apps'), {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    })
+    if (!res.ok) return []
+    return await readApps(res)
+  } catch (error) {
+    console.error('Could not load accessible apps from the auth service.', error)
+    return []
+  }
 }
 
 // With the dev auth bypass on there is no token to ask the auth service
@@ -21,7 +43,7 @@ async function getVisibleProjects(): Promise<Project[]> {
   if (isAuthDisabled()) return allProjects
 
   const cookieStore = await cookies()
-  const token = cookieStore.get('auth_token')?.value ?? ''
+  const token = readAuthToken(cookieStore) ?? ''
   const accessibleApps = await getAccessibleApps(token)
   return allProjects.filter((p) => accessibleApps.includes(p.subdomain))
 }

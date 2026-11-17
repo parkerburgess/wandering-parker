@@ -25,7 +25,9 @@ export default function GuestAccessCard() {
         // eslint-disable-next-line @next/next/no-location-assign-relative-destination
         window.location.href = '/'
       } else {
-        setError('Guest access is unavailable right now.')
+        // The route words its own message (busy, unavailable, ...).
+        const data = await res.json().catch(() => null)
+        setError(data?.error ?? 'Guest access is unavailable right now.')
         setLoading(false)
       }
     } catch {

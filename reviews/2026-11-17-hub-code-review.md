@@ -50,7 +50,10 @@ a `/` path nor `localhost`, so it's rejected and the user lands on the hub's `/`
 of the app they came from. It only works locally. The fix for H1 (an allow-list
 including `*.wanderingparker.com`) fixes this too.
 
-### H3. Auth rate limiting counts the wrong client, and its counters don't persist — Likely
+### H3. Auth rate limiting counts the wrong client, and its counters don't persist — Likely — 🎫 Ticketed as #53
+> **Decided 2026-11-17:** fix problem 1 with the "count the real visitor" option, tracked
+> in #53. Problem 2 stays as is: in-memory counters are accepted as best-effort.
+
 Hub side: `app/api/auth/login/route.ts:8`, `guest/route.ts:17`, `register/route.ts:17`,
 `forgot-password/route.ts:14`. Auth-service side: `auth-wandering-parker/src/auth.ts`
 (`rateLimit`).
@@ -100,30 +103,39 @@ sign-ins that come through the hub.
 
 ## Medium
 
-### M1. Any sign-in failure is reported as "Invalid email or password" — Confirmed
+> **M1–M5 and M7 fixed 2026-11-17; M6 withdrawn (see its note).** Sign-in for login and
+> guest now goes through one shared flow, `lib/signIn.ts`, which returns a result type
+> (success / invalid credentials / not verified / rate limited / unavailable). Each route
+> words its own message. New helpers: `lib/authCookie.ts` (the only copy of the cookie
+> rules), `lib/authService.ts` (`AUTH_SERVICE_URL` and the app-URL fallback, read once),
+> `lib/requestBody.ts` (safe JSON body reading), and `tooManyRequests` /
+> `serviceUnavailable` in `lib/apiResponses.ts`. Tested in the browser with the auth
+> service both stopped and running.
+
+### M1. Any sign-in failure is reported as "Invalid email or password" — Confirmed — ✅ Fixed
 `app/api/auth/login/route.ts:17-22`. Everything except 403 maps to 401 with that text,
 including 429 (rate limited, see H3) and 5xx (auth service down). Users retry a correct
 password and get locked out further. Map 429 and 5xx to their own messages.
 
-### M2. Route handlers crash on a bad request body — Confirmed
+### M2. Route handlers crash on a bad request body — Confirmed — ✅ Fixed
 Every route calls `await request.json()` unguarded (`login:5`, `register:5`,
 `forgot-password:5`, `reset-password:5`). A malformed or empty body throws, producing an
 unhandled 500 instead of a 400. `login` also doesn't check that `email`/`password` exist,
 unlike the other routes. A small `readJsonBody()` helper returning `badRequest(...)` would
 cover all four.
 
-### M3. Inconsistent handling of auth-service network errors — Confirmed
+### M3. Inconsistent handling of auth-service network errors — Confirmed — ✅ Fixed
 `forgot-password` and `reset-password` wrap `fetch` in try/catch and return a clean
 `serverError`. `login` and `guest` don't, so an unreachable auth service is an unhandled
-500 there.
+500 there. (`register` had the same gap and is fixed too. All four now return 503.)
 
-### M4. Home page fails if the auth service is down or returns an unexpected shape — Confirmed
+### M4. Home page fails if the auth service is down or returns an unexpected shape — Confirmed — ✅ Fixed
 `app/page.tsx:7-15`. `getAccessibleApps` has no try/catch around `fetch`, and
 `data.apps as string[]` is an unchecked cast. If `apps` is missing, `.includes` at line
 26 throws. Both turn the whole home page into an error page rather than the existing
 "No projects available" empty state.
 
-### M5. Session cookie extraction is fragile — Confirmed (code), Likely (impact)
+### M5. Session cookie extraction is fragile — Confirmed (code), Likely (impact) — ✅ Fixed
 `login/route.ts:25-26`, `guest/route.ts:30-31`. `headers.get('set-cookie')` joins every
 `Set-Cookie` header into one string, and `.split(';')[0]` keeps only the first cookie's
 name=value. That works only while Better Auth sends the session cookie **first**. If
@@ -133,13 +145,24 @@ a cookie is added or reordered (e.g. turning on `cookieCache`, which adds a
 be picked by name. Also, `{ token }` from the token response isn't checked before
 `cookies.set`.
 
-### M6. Registration errors reveal whether an email is registered — Confirmed
+### M6. Registration errors reveal whether an email is registered — ❌ Withdrawn
+> **Withdrawn 2026-11-17:** this was wrong. With `requireEmailVerification` on, Better
+> Auth 1.6.18 answers a signup for an existing email with the same success response as a
+> new signup, and hashes the password anyway so both take the same time (see
+> `shouldReturnGenericDuplicateResponse` in its `sign-up` route). The messages the hub
+> passes through are validation errors (password length, invalid email, captcha), which
+> are safe to show. No change needed; `register/route.ts` now has a comment saying so.
+
+Original finding:
 `app/api/auth/register/route.ts:33-34` passes Better Auth's `message` straight to the
 client (e.g. "User already exists"). `forgot-password/route.ts:26-28` deliberately hides
 this for account-enumeration protection. One door undoes the other. Decide which stance
 you want; if hiding, map known upstream errors to generic text.
 
-### M7. Cookie options are duplicated in four places — Confirmed
+### M7. Cookie options are duplicated in four places — Confirmed — ✅ Fixed
+> Only covers the hub. The sibling apps still copy the cookie rule in their own
+> `proxy.ts` and logout routes; sharing it would belong in `wandering-parker-server`.
+
 `login/route.ts:42-49`, `guest/route.ts:47-54`, `logout/route.ts:8-12`, `proxy.ts:24-28`
 each repeat the name, path and the `NODE_ENV === 'production' ? '.wanderingparker.com'`
 domain rule. The comments already warn that these must match, which is the sign it
@@ -162,7 +185,11 @@ a spent token. Clear `captchaToken` alongside the reset.
 every other form. A non-JSON error response falls into the outer catch and shows "Could
 not reach the server".
 
-### L3. `lib/auth.ts` builds the JWKS URL at import time — Confirmed
+### L3. `lib/auth.ts` builds the JWKS URL at import time — Confirmed — ✅ Fixed (with M7)
+> `getAuthJwks()` now builds the key set on first use, and `lib/authService.ts` throws a
+> clear "AUTH_SERVICE_URL is not set" error instead of building `undefined/...` URLs.
+> The root layout still needs the variable for the contact form endpoint.
+
 `lib/auth.ts:3-5`. If `AUTH_SERVICE_URL` is unset, `new URL('undefined/api/auth/jwks')`
 throws while loading the module, which takes down every page (including `/login`) with
 an unhelpful error, even when `DISABLE_AUTH=true` means it would never be used. Either
