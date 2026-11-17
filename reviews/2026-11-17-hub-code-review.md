@@ -175,12 +175,17 @@ should be one helper in `lib/` (e.g. `setAuthCookie(response, token)` /
 
 ## Low
 
-### L1. Stale captcha token after a failed registration — Confirmed
+> **L1, L2, L4, L5, L6 and C1–C8 fixed 2026-11-17.** L4's anchored matcher was tested
+> against real paths: `/loginx`, `/register-anything` and `/api/authz` now go through
+> the proxy; the public pages and `/api/auth/*` still skip it. For L5, the guest button
+> now also honours `return_url` (it used to always go to `/`).
+
+### L1. Stale captcha token after a failed registration — Confirmed — ✅ Fixed
 `app/register/page.tsx:42,47`. On failure `resetKey` bumps (resetting the widget) but
 `captchaToken` keeps the used token, so the button re-enables and a second submit sends
 a spent token. Clear `captchaToken` alongside the reset.
 
-### L2. Reset-password error parse can mislabel the failure — Confirmed
+### L2. Reset-password error parse can mislabel the failure — Confirmed — ✅ Fixed
 `app/reset-password/ResetPasswordForm.tsx:45`. `await res.json()` has no `.catch`, unlike
 every other form. A non-JSON error response falls into the outer catch and shows "Could
 not reach the server".
@@ -196,17 +201,17 @@ an unhelpful error, even when `DISABLE_AUTH=true` means it would never be used. 
 fail with a clear message or create it lazily. The sibling apps default to
 `http://localhost:3001`; the hub doesn't.
 
-### L4. Proxy matcher exclusions are prefixes, not path segments — Confirmed
+### L4. Proxy matcher exclusions are prefixes, not path segments — Confirmed — ✅ Fixed
 `proxy.ts:38`. `(?!login|register|...|api/auth)` skips auth for any path that **starts**
 with those words, e.g. `/loginx`, `/register-anything`, `/api/authz`. Nothing exists at
 those paths today, so it's harmless now, but a future route like `/api/authors` would
 silently be public. Anchor each with `(?:/|$)`.
 
-### L5. Redirect to `/login` drops where the user was going — Confirmed
+### L5. Redirect to `/login` drops where the user was going — Confirmed — ✅ Fixed
 `proxy.ts:13,20`. The hub's own proxy doesn't set `return_url`, so a signed-out visit to
 `/resume` lands on `/` after sign-in.
 
-### L6. Unchecked casts of JWT claims — Confirmed
+### L6. Unchecked casts of JWT claims — Confirmed — ✅ Fixed
 `lib/auth.ts:31-32`. `payload.email as string | undefined` and `payload.name as string`
 trust the claim types. A `typeof` check keeps the "strongly typed everywhere" rule honest.
 
@@ -216,30 +221,41 @@ trust the claim types. A `typeof` check keeps the "strongly typed everywhere" ru
 
 - **C1. Dead data:** `Project.skills` is parsed in `lib/getProjects.ts:34` but never
   rendered.
+  ✅ *Fixed: each project card now shows its skills as badges.*
 - **C2. Orphaned art / missing project:** `lib/projectArt.ts:16` registers
   `good-bad-calendar` art and `package.json`'s `dev:all` runs that app, but
   `data/projects.json` has no Good Bad Calendar entry, so it never appears on the hub.
   Intentional?
+  ✅ *Fixed: it was removed on purpose (commit `2ff9e97`) and its repo is gone, so
+  `GoodBadCalendarArt` and its registry entry are deleted and `dev:all` no longer starts
+  it. Both can come back from git history.*
 - **C3. Unneeded cast:** `lib/getProjects.ts:31` `projectsData as ProjectData[]`.
   `resolveJsonModule` already types the import; the cast would hide a mismatch.
   `getResume.ts` does this right.
+  ✅ *Fixed: replaced with a typed assignment.*
 - **C4. Page structure is inconsistent:** `/login` and `/reset-password` are server pages
   that pass `searchParams` into a client component; `/register` and `/forgot-password`
   are `'use client'` at the page level. Pick one pattern.
+  ✅ *Fixed: all four are now server pages rendering a client form
+  (`RegisterForm`, `ForgotPasswordForm`).*
 - **C5. Read-only guard:** decision 0002 says `enforceReadOnly` is wired into *every*
   app's `proxy.ts`. The hub's isn't. The hub has no write routes a guest can reach today
   (the auth routes are excluded from the proxy), so this is a doc/decision mismatch
   rather than a hole. Either wire it in for defence in depth or note the exception in
   0002.
+  ✅ *Fixed: decision 0002 now records the hub as an exception.*
 - **C6. Local files tracked in git:** `.claude/settings.local.json` is meant to be
   per-machine and it's committed. `.vscode/settings.json` is committed but empty
   (`{}`).
+  ✅ *Fixed: both untracked and added to `.gitignore`; local copies stay on disk.*
 - **C7. Logout doesn't end the session server-side:** `logout/route.ts` only clears the
   cookie. The JWT stays valid until it expires (1 day). That's normal for stateless JWTs;
   just worth knowing.
+  ✅ *Accepted: documented in a comment on the logout route.*
 - **C8. Formatting nits:** `app/resume/page.tsx:61` `downloadLinkCls ='…` (missing
   space); `app/page.tsx:55-57` copy has trailing double spaces and a typo
   ("architectual").
+  ✅ *Fixed.*
 
 ## What looked good
 

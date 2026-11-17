@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"next dev\" \"wait-on http://localhost:3000 && start chrome --incognito http://localhost:3000\"",
     "dev:server-only": "next dev",
-    "dev:all": "concurrently --kill-others --names \"auth,wp,gbc\" --prefix-colors \"yellow,cyan,green\" \"npm run --prefix ../auth-wandering-parker dev\" \"npm run dev\" \"npm run --prefix ../good-bad-calendar dev\"",
+    "dev:all": "concurrently --kill-others --names \"auth,wp\" --prefix-colors \"yellow,cyan\" \"npm run --prefix ../auth-wandering-parker dev\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

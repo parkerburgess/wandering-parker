@@ -1,3 +1,4 @@
+import { Badge } from '@parkerburgess/wandering-parker-ui'
 import { Project } from '@/lib/getProjects'
 import ProjectArt from './ProjectArt'
 
@@ -7,10 +8,11 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   // #region Tailwind utility consts
-  // Name, art and description stack vertically; the 1fr row lets the
-  // description take whatever height the grid row gives the card.
+  // Name, art, description and skills stack vertically; the 1fr row lets
+  // the description take whatever height the grid row gives the card, which
+  // keeps the skill badges on the bottom edge.
   const projectCardCls =
-    'group grid grid-rows-[auto_auto_1fr] gap-4 p-5 rounded-xl ' +
+    'group grid grid-rows-[auto_auto_1fr_auto] gap-4 p-5 rounded-xl ' +
     'border border-neutral-400 bg-card ' +
     'transition-all duration-200 hover:shadow-lg ' +
     'hover:shadow-primary-600/5 hover:-translate-y-0.5'
@@ -18,6 +20,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   // The art is transparent, so this tint is what shows behind it.
   const thumbnailWrapCls = 'h-40 rounded-lg overflow-hidden bg-neutral-50'
   const projectDescCls = 'text-sm text-neutral-500 overflow-hidden line-clamp-4'
+  const skillListCls = 'flex flex-wrap gap-2'
   // #endregion
 
   return (
@@ -37,6 +40,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <p className={projectDescCls}>
           {project.description}
         </p>
+      )}
+      {project.skills.length > 0 && (
+        <ul className={skillListCls} aria-label="Skills">
+          {project.skills.map((skill) => (
+            <li key={skill}>
+              <Badge color="neutral">{skill}</Badge>
+            </li>
+          ))}
+        </ul>
       )}
     </a>
   )

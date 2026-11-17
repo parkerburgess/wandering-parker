@@ -42,8 +42,8 @@ export default function ResetPasswordForm({ token, linkError }: Props) {
       if (res.ok) {
         setDone(true)
       } else {
-        const data = await res.json()
-        setError(data.error ?? 'Something went wrong. Please try again.')
+        const data = await res.json().catch(() => null)
+        setError(data?.error ?? 'Something went wrong. Please try again.')
         setLoading(false)
       }
     } catch {

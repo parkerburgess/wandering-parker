@@ -35,3 +35,7 @@ next-env.d.ts
 
 # untouched source images the project-art SVGs were traced from (local only)
 public/images/*.original.jpg
+
+# per-machine editor and Claude Code settings
+.claude/settings.local.json
+.vscode/settings.json

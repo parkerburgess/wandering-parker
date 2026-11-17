@@ -1,4 +1,5 @@
 import { createRemoteJWKSet, jwtVerify } from 'jose'
+import type { JWTPayload } from 'jose'
 import { getAuthServiceUrl } from './authService'
 
 type AuthJwks = ReturnType<typeof createRemoteJWKSet>
@@ -28,6 +29,12 @@ export interface VerifiedAuthUser {
   email?: string
 }
 
+// JWT claims are untyped; anything that isn't a non-empty string is ignored.
+function readStringClaim(payload: JWTPayload, claim: string): string | undefined {
+  const value = payload[claim]
+  return typeof value === 'string' && value.length > 0 ? value : undefined
+}
+
 // Verifies the signature itself rather than trusting proxy.ts: the layout
 // also renders on the public pages the proxy skips (login, register, ...).
 export async function getVerifiedAuthUser(
@@ -38,8 +45,8 @@ export async function getVerifiedAuthUser(
 
   try {
     const { payload } = await jwtVerify(token, getAuthJwks())
-    const email = payload.email as string | undefined
-    const name = (payload.name as string) || email
+    const email = readStringClaim(payload, 'email')
+    const name = readStringClaim(payload, 'name') ?? email
     if (!name) return undefined
     const isGuest = email === process.env.GUEST_EMAIL
     return { name, email: isGuest ? undefined : email }
