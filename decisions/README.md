@@ -18,6 +18,7 @@ rather than to details that age (prices, versions, dashboards).
 | 0002 | [Authentication hardening](0002-auth-hardening.md) | Accepted | 2026-11-02 |
 | 0003 | [Contact form endpoint](0003-contact-form-endpoint.md) | Accepted | 2026-11-03 |
 | 0004 | [Component DTO boundary](0004-component-dto-boundary.md) | Accepted | 2026-11-04 |
+| 0005 | [Azure DevOps + Azure hosting migration](0005-azure-devops-hosting-migration.md) | Proposed | 2026-11-18 |
 
 ## Adding a record
 
