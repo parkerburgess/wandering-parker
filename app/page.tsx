@@ -75,8 +75,7 @@ export default async function HomePage() {
           <h1 className={headingCls}>Projects and Purpose</h1>
           <p className={subheadingCls}>
             This is a set of projects that I&apos;m using to explore concepts and tools (Claude) as well as to keep my skills sharp.
-            These are close to production ready projects.  The code is available on my GitHub (link in my resume) and there
-            are, or will be soon, detail pages that include diagrams and architectural details.
+            These are close to production ready projects.  The code is available on my GitHub, link in my resume.
           </p>
         </div>
 
