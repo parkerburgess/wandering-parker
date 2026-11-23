@@ -2,6 +2,7 @@ import { ComponentType } from 'react'
 import SharpenerArt from '@/app/_components/project-art/SharpenerArt'
 import NoFileNoMileArt from '@/app/_components/project-art/NoFileNoMileArt'
 import FlyFishingArt from '@/app/_components/project-art/FlyFishingArt'
+import HouseListingArt from '@/app/_components/project-art/HouseListingArt'
 
 interface ProjectArtProps {
   className?: string
@@ -12,6 +13,7 @@ export const projectArtComponents = {
   'sharpener': SharpenerArt,
   'no-file-no-mile': NoFileNoMileArt,
   'fly-fishing': FlyFishingArt,
+  'house-listing': HouseListingArt,
 } satisfies Record<string, ComponentType<ProjectArtProps>>
 
 export type ProjectArtKey = keyof typeof projectArtComponents
